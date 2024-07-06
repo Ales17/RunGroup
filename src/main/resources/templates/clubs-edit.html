@@ -1,0 +1,54 @@
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <title>Club Edit</title>
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+
+
+    <!-- Page Content-->
+    <section layout:fragment="body" class="py-5">
+        <div class="container">
+            <form role="form" method="POST" th:action="@{/clubs/{clubId}/edit(clubId=${club.getId()})}"
+                  th:object="${club}">
+                <div class="form-row">
+                    <div class="mb-3">
+                        <label for="title">Title</label>
+                        <input type="hidden" th:field="*{id}"/>
+                        <input
+                                th:field="*{title}"
+                                type="text"
+                                name="title"
+                                id="title"
+                                class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="photourl">Photo URL</label>
+                        <input
+                                th:field="*{photoUrl}"
+                                type="text"
+                                class="form-control"
+                                id="photourl"
+                                name="photourl">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="content">Content</label>
+                        <input
+                                th:field="*{content}"
+                                type="text"
+                                id="content"
+                                name="content"
+                                class="form-control">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save</button>
+
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>
