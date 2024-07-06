@@ -22,10 +22,10 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public List<ClubDto> findAllClubs() {
         List<Club> clubs = clubRepository.findAll();
-        return clubs.stream().map((club) -> mapToClubDto(club)).collect(Collectors.toList());
+        return clubs.stream().map((club) -> mapToDto(club)).collect(Collectors.toList());
     }
 
-    private ClubDto mapToClubDto(Club club) {
+    private ClubDto mapToDto(Club club) {
         return ClubDto.builder()
                 .id(club.getId())
                 .title(club.getTitle())
@@ -52,5 +52,17 @@ public class ClubServiceImpl implements ClubService {
     public Club saveClub(ClubDto clubDto) {
         Club club = mapToClub(clubDto);
         return clubRepository.save(club);
+    }
+
+    @Override
+    public ClubDto findClubById(long clubId) {
+        Club club = clubRepository.findById(clubId).get();
+        return mapToDto(club);
+    }
+
+    @Override
+    public void updateClub(ClubDto clubDto) {
+        Club club = mapToClub(clubDto);
+        clubRepository.save(club);
     }
 }
