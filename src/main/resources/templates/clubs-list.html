@@ -3,9 +3,10 @@
       layout:decorate="~{layout}">
 
 <body class="d-flex flex-column h-100">
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
 <main class="flex-shrink-0">
-
-
     <!-- Page Content-->
     <section layout:fragment="body" class="py-5">
         <div class="container px-5 my-5">
@@ -14,6 +15,15 @@
                 <p class="lead fw-normal text-muted mb-0">Runners found in your area</p>
             </div>
             <div class="row gx-5">
+                <form th:action="@{/clubs/search}" class="form-inline my-2 my-lg-0 mb-3">
+                    <div class="input-group">
+                        <div class="form-outline">
+                            <input type="search" id="query" name="query" class="form-control"/>
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Search">
+                    </div>
+                </form>
+
                 <div th:each="club :${clubs} " class="col-lg-6">
                     <div class="position-relative mb-5">
                         <!--Random param to prove images would not be the same-->
@@ -23,13 +33,14 @@
                            href="#"></a>
                     </div>
                     <a th:href="@{/clubs/{clubId}(clubId=${club.id})}" class="btn btn-primary">Detail</a>
-
                     <a th:href="@{/clubs/{clubId}/edit(clubId=${club.id})}" class="btn btn-primary">Edit</a>
                 </div>
-
             </div>
         </div>
     </section>
 </main>
 </body>
+<script>
+
+</script>
 </html>
