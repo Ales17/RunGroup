@@ -24,12 +24,19 @@ public class ClubController {
         this.clubService = clubService;
     }
 
-    @GetMapping("/clubs")
+    @GetMapping({"/clubs","/"})
     public String listClubs(Model model) {
         List<ClubDto> clubs = clubService.findAllClubs();
         model.addAttribute("clubs", clubs);
         return "clubs-list";
 
+    }
+
+    @GetMapping("/clubs/{clubId}")
+    public String clubDetail(Model model, @PathVariable("clubId") long clubId) {
+        ClubDto clubDto = clubService.findClubById(clubId);
+        model.addAttribute("club", clubDto);
+        return "clubs-detail";
     }
 
     @GetMapping("/clubs/new")
