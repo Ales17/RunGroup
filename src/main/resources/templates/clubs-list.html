@@ -4,33 +4,42 @@
 
 <body class="d-flex flex-column h-100">
 <head>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <main class="flex-shrink-0">
     <!-- Page Content-->
     <section layout:fragment="body" class="py-5">
         <div class="container px-5 my-5">
+
             <div class="text-center mb-5">
                 <h1 class="fw-bolder">Runners near you</h1>
                 <p class="lead fw-normal text-muted mb-0">Runners found in your area</p>
             </div>
-            <div class="row gx-5">
-                <form th:action="@{/clubs/search}" class="form-inline my-2 my-lg-0 mb-3">
+
+            <div class="row">
+
+                <div class="col d-flex justify-content-center" th:if="${param.query}">
+                    <a class="btn btn-primary" th:href="@{/clubs}">Back to clubs</a>
+                </div>
+
+                <form class="form-inline my-2 mb-3" th:action="@{/clubs/search}">
                     <div class="input-group">
-                        <div class="form-outline">
-                            <input type="search" id="query" name="query" class="form-control"/>
-                        </div>
+
+                        <input class="form-control" id="query" name="query" type="search"/>
+
                         <input class="btn btn-primary" type="submit" value="Search">
                     </div>
                 </form>
+            </div>
+
+            <div class="row g-4">
 
                 <div th:each="club :${clubs} " class="col-lg-6">
                     <div class="position-relative mb-5">
                         <!--Random param to prove images would not be the same-->
                         <img class="img-fluid rounded-3 mb-3" th:src="${club.photoUrl}+'?random='+${club.id}"
                              alt="..."/>
-                        <a th:text="${club.title}" class="h3 fw-bolder text-decoration-none link-dark stretched-link"
-                           href="#"></a>
+                        <h3 class="h3 fw-bolder"
+                            th:text="${club.title}"></h3>
                     </div>
                     <a th:href="@{/clubs/{clubId}(clubId=${club.id})}" class="btn btn-primary">Detail</a>
                     <a th:href="@{/clubs/{clubId}/edit(clubId=${club.id})}" class="btn btn-primary">Edit</a>
