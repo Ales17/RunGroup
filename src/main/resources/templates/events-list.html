@@ -1,0 +1,55 @@
+<html layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://thymeleaf.org">
+
+<body class="d-flex flex-column h-100">
+<head>
+</head>
+<main class="flex-shrink-0">
+    <!-- Page Content-->
+    <section class="py-5" layout:fragment="body">
+        <div class="container px-5 my-5">
+
+            <div class="text-center mb-5">
+                <h1 class="fw-bolder">Find running events</h1>
+                <p class="lead fw-normal text-muted mb-0">Events found in your area</p>
+            </div>
+
+            <!--   <div class="row">
+
+                   <div class="col d-flex justify-content-center" th:if="${param.query}">
+                       <a class="btn btn-primary" th:href="@{/clubs}">Back to clubs</a>
+                   </div>
+
+                   <form class="form-inline my-2 mb-3" th:action="@{/clubs/search}">
+                       <div class="input-group">
+
+                           <input class="form-control" id="query" name="query" type="search"/>
+
+                           <input class="btn btn-primary" type="submit" value="Search">
+                       </div>
+                   </form>
+               </div>
+   -->
+            <div class="row g-4">
+
+                <div class="col-lg-6" th:each="event :${events} ">
+                    <div class="position-relative mb-5">
+                        <!--Random param to prove images would not be the same-->
+                        <img alt="..." class="img-fluid rounded-3 mb-3"
+                             th:src="${event.photoUrl}+'?random='+${event.id}"/>
+                        <h3 class="h3 fw-bolder"
+                            th:text="${event.name}"></h3>
+                    </div>
+                    <!--                    <a th:href="@{/clubs/{clubId}(clubId=${club.id})}" class="btn btn-primary">Detail</a>-->
+                    <!--                    <a th:href="@{/clubs/{clubId}/edit(clubId=${club.id})}" class="btn btn-primary">Edit</a>-->
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+<script>
+
+</script>
+</html>

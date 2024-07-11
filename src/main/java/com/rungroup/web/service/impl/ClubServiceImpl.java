@@ -1,6 +1,7 @@
 package com.rungroup.web.service.impl;
 
 import com.rungroup.web.dto.ClubDto;
+import com.rungroup.web.mapper.ClubMapper;
 import com.rungroup.web.models.Club;
 import com.rungroup.web.repository.ClubRepository;
 import com.rungroup.web.service.ClubService;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.rungroup.web.mapper.ClubMapper.mapToClub;
+import static com.rungroup.web.mapper.ClubMapper.mapToClubDto;
 
 @Service
 public class ClubServiceImpl implements ClubService {
@@ -22,32 +26,8 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public List<ClubDto> findAllClubs() {
         List<Club> clubs = clubRepository.findAll();
-        return clubs.stream().map((club) -> mapToDto(club)).collect(Collectors.toList());
+        return clubs.stream().map(ClubMapper::mapToClubDto).collect(Collectors.toList());
     }
-
-    private ClubDto mapToDto(Club club) {
-        return ClubDto.builder()
-                .id(club.getId())
-                .title(club.getTitle())
-                .photoUrl(club.getPhotoUrl())
-                .content(club.getContent())
-                .createdOn(club.getCreatedOn())
-                .updatedOn(club.getUpdatedOn())
-                .build();
-    }
-
-    private Club mapToClub(ClubDto clubDto) {
-        return Club.builder()
-                .id(clubDto.getId())
-                .title(clubDto.getTitle())
-                .photoUrl(clubDto.getPhotoUrl())
-                .content(clubDto.getContent())
-                .createdOn(clubDto.getCreatedOn())
-                .updatedOn(clubDto.getUpdatedOn())
-                .build();
-
-    }
-
 
     public Club saveClub(ClubDto clubDto) {
         Club club = mapToClub(clubDto);
@@ -57,7 +37,7 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public ClubDto findClubById(Long clubId) {
         Club club = clubRepository.findById(clubId).get();
-        return mapToDto(club);
+        return mapToClubDto(club);
     }
 
     @Override
@@ -74,7 +54,7 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public List<ClubDto> searchClubs(String query) {
         List<Club> clubs = clubRepository.searchClubs(query);
-        return clubs.stream().map(this::mapToDto).collect(Collectors.toList());
+        return clubs.stream().map(ClubMapper::mapToClubDto).collect(Collectors.toList());
     }
 
 
