@@ -2,7 +2,7 @@
         layout:decorate="~{layout}"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <title>Club Create</title>
+    <title>Event detail</title>
 </head>
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0">
@@ -26,10 +26,12 @@
                                           th:src="${event.photoUrl}+'?random='+${eventId}"></a>
                         <div class="card-body">
                             <div class="small text-muted" th:text="*{event.createdOn}"></div>
-                            <h2 class="card-title">About this evnet</h2>
+                            <h2 class="card-title">About this event</h2>
                             <p class="card-text" th:text="A"></p>
                             <a class="btn btn-danger"
                                th:href="@{/events/{eventId}/delete(eventId=${event.id})}">Delete</a>
+                            <a class="btn btn-warning"
+                               th:href="@{/events/{eventId}/edit(eventId=${event.id})}">Edit</a>
                         </div>
                     </div>
                     <!-- Nested row for non-featured blog posts-->

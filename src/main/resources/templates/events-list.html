@@ -42,7 +42,7 @@
                             th:text="${event.name}"></h3>
                     </div>
                     <a class="btn btn-primary" th:href="@{/events/{eventId}(eventId=${event.id})}">Read more →</a>
-                    <!--                    <a th:href="@{/clubs/{clubId}/edit(clubId=${club.id})}" class="btn btn-primary">Edit</a>-->
+                    <a class="btn btn-primary" th:href="@{/events/{eventId}/edit(eventId=${event.id})}">Edit</a>
                 </div>
             </div>
         </div>

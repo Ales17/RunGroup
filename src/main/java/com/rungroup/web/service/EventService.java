@@ -7,6 +7,7 @@ import java.util.List;
 public interface EventService {
     void createEvent(Long clubId, EventDto eventDto);
 
+    void updateEvent(EventDto eventDto);
     EventDto findByEventId(Long eventId);
     List<EventDto> findAllEvents();
 }
