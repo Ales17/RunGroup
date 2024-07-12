@@ -67,6 +67,11 @@ public class EventController {
         return "events-create";
     }
 
+    @GetMapping("events/{eventId}/delete")
+    public String deleteEvent(@PathVariable("eventId") Long eventId) {
+        eventService.deleteEvent(eventId);
+        return "redirect:/events";
+    }
     @PostMapping("events/{clubId}/new")
     public String createEvent(@PathVariable("clubId") Long clubId, @Valid @ModelAttribute("event") EventDto eventDto, BindingResult result, Model model) {
         if (result.hasErrors()) {
