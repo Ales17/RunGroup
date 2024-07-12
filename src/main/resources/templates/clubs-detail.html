@@ -43,7 +43,8 @@
                                     <div class="small text-muted">January 1, 2023</div>
                                     <h2 class="card-title h4" th:text="*{event.name}"></h2>
                                     <p class="card-text"></p>
-                                    <a class="btn btn-primary" href="#!">Read more →</a>
+                                    <a class="btn btn-primary" th:href="@{/events/{eventId}(eventId=${event.id})}">Read
+                                        more →</a>
                                 </div>
                             </div>
                         </div>

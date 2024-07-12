@@ -41,7 +41,7 @@
                         <h3 class="h3 fw-bolder"
                             th:text="${event.name}"></h3>
                     </div>
-                    <!--                    <a th:href="@{/clubs/{clubId}(clubId=${club.id})}" class="btn btn-primary">Detail</a>-->
+                    <a class="btn btn-primary" th:href="@{/events/{eventId}(eventId=${event.id})}">Read more →</a>
                     <!--                    <a th:href="@{/clubs/{clubId}/edit(clubId=${club.id})}" class="btn btn-primary">Edit</a>-->
                 </div>
             </div>
