@@ -2,20 +2,23 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://thymeleaf.org">
 
-<body class="d-flex flex-column h-100">
-<head>
-</head>
+<body>
 <main class="flex-shrink-0">
     <!-- Page Content-->
-    <section class="py-5" layout:fragment="body">
+    <section class="" layout:fragment="body">
+
+        <header class="py-5 bg-light border-bottom mb-4">
+            <div class="container">
+                <div class="text-center my-5">
+                    <h1 class="fw-bolder">Events near you</h1>
+                </div>
+            </div>
+        </header>
+
         <div class="container px-5 my-5">
 
-            <div class="text-center mb-5">
-                <h1 class="fw-bolder">Find running events</h1>
-                <p class="lead fw-normal text-muted mb-0">Events found in your area</p>
-            </div>
 
-            <!--   <div class="row">
+        <!--   <div class="row">
 
                    <div class="col d-flex justify-content-center" th:if="${param.query}">
                        <a class="btn btn-primary" th:href="@{/clubs}">Back to clubs</a>

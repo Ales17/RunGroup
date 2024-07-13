@@ -9,7 +9,7 @@
     <link th:href="@{/css/styles.css}" rel="stylesheet">
     <link rel="icon" type="image/x-icon" th:href="@{assets/favicon.ico}"/>
 </head>
-<body>
+<body class="min-vh-100 d-flex flex-column">
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-5">
@@ -29,8 +29,9 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Welcome</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                        <li><a class="dropdown-item" href="#">Register</a></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                        <li><a class="dropdown-item" th:href="@{/login}">Login</a></li>
+                        <li><a class="dropdown-item" th:href="@{/register}">Register</a></li>
+                        <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -41,17 +42,17 @@
 <div layout:fragment="body">
 
 </div>
-<section class="py-5 bg-light">
+<!--<section class="py-5 bg-light">
     <div class="container px-5 my-5">
         <h2 class="display-4 fw-bolder mb-4">Runners near you</h2>
         <a class="btn btn-lg btn-primary" href="#!">Runners found</a>
     </div>
-</section>
-<footer class="bg-dark py-4 mt-auto">
+</section>-->
+<footer class="bg-dark py-3 mt-auto">
     <div class="container px-5">
         <div class="row align-items-center justify-content-between flex-column flex-sm-row">
             <div class="col-auto">
-                <div class="small m-0 text-white">Copyright &copy; Your Website 2023</div>
+                <div class="small m-0 text-white">Copyright &copy; 2024 Running</div>
             </div>
             <!--<div class="col-auto">
                 <a class="link-light small" href="@{#}">Privacy</a>

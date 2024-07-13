@@ -7,13 +7,18 @@
 </head>
 <main class="flex-shrink-0">
     <!-- Page Content-->
-    <section layout:fragment="body" class="py-5">
+    <section layout:fragment="body">
+        <header class="py-5 bg-light border-bottom mb-4">
+            <div class="container">
+                <div class="text-center my-5">
+                    <h1 class="fw-bolder">Runners near you</h1>
+                </div>
+            </div>
+        </header>
+
         <div class="container px-5 my-5">
             <div class="alert alert-success" th:if="${param.success}">You are registered successfully.</div>
-            <div class="text-center mb-5">
-                <h1 class="fw-bolder">Runners near you</h1>
-                <p class="lead fw-normal text-muted mb-0">Runners found in your area</p>
-            </div>
+
 
             <div class="row">
 
