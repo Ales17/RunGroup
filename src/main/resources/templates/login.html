@@ -1,0 +1,78 @@
+<html
+        layout:decorate="~{layout}"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Login</title>
+    <style>
+        .main {
+            padding: 0px 10px;
+        }
+
+        @media screen and (max-width: 450px) {
+            .login-form {
+                margin-top: 10%;
+            }
+
+            .register-form {
+                margin-top: 10%;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .main {
+                margin-left: 30%;
+            }
+
+            .sidenav {
+                width: 40%;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<section layout:fragment="body">
+
+    <div class="container py-5 ">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-sm-12">
+                <div class="alert alert-danger" th:if="${param.errors}">
+                    Invalid username and password.
+                </div>
+                <div class="alert alert-success" th:if="${param.logout}">
+                    You have been logged out.
+                </div>
+                <form class="d-flex flex-column gap-2" method="post" th:action="@{/login}">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input
+                                class="form-control"
+                                id="username"
+                                name="username"
+                                placeholder="Username"
+                                type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Password"
+                                type="password">
+                    </div>
+                    <div class="d-flex flex-column gap-2">
+                        <input class="d-inline-block btn btn-primary" type="submit" value="Log in">
+
+                        <a class="btn btn-outline-dark d-block" th:href="@{/register}">Don't have an account?.</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</html>
