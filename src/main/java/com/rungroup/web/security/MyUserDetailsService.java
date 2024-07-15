@@ -2,8 +2,6 @@ package com.rungroup.web.security;
 
 import com.rungroup.web.models.UserEntity;
 import com.rungroup.web.repository.UserRepository;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,13 +22,8 @@ public class MyUserDetailsService implements UserDetailsService {
         UserEntity user = userRepository.findFirstByUsername(username);
 
         if (user != null) {
-            return new User(
-                    user.getUsername(),
-                    user.getPassword(),
-                    user.getRoles().stream().map((role) -> new SimpleGrantedAuthority(role.getName())).toList()
-            );
-        } else {
-            throw new UsernameNotFoundException("Invalid username or password");
-        }
+            return user;
+        } else throw new UsernameNotFoundException("Invalid username or password");
+
     }
 }
