@@ -17,23 +17,6 @@
 
         <div class="container px-5 my-5">
 
-
-        <!--   <div class="row">
-
-                   <div class="col d-flex justify-content-center" th:if="${param.query}">
-                       <a class="btn btn-primary" th:href="@{/clubs}">Back to clubs</a>
-                   </div>
-
-                   <form class="form-inline my-2 mb-3" th:action="@{/clubs/search}">
-                       <div class="input-group">
-
-                           <input class="form-control" id="query" name="query" type="search"/>
-
-                           <input class="btn btn-primary" type="submit" value="Search">
-                       </div>
-                   </form>
-               </div>
-   -->
             <div class="row g-4">
 
                 <div class="col-lg-6" th:each="event :${events} ">
@@ -45,7 +28,9 @@
                             th:text="${event.name}"></h3>
                     </div>
                     <a class="btn btn-primary" th:href="@{/events/{eventId}(eventId=${event.id})}">Read more →</a>
-                    <a class="btn btn-primary" th:href="@{/events/{eventId}/edit(eventId=${event.id})}">Edit</a>
+                    <div th:if="${user.id}==${event.club.createdBy.id}">
+                        <a class="btn btn-primary" th:href="@{/events/{eventId}/edit(eventId=${event.id})}">Edit</a>
+                    </div>
                 </div>
             </div>
         </div>

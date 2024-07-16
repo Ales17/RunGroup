@@ -2,7 +2,10 @@ package com.rungroup.web.controller;
 
 import com.rungroup.web.dto.EventDto;
 import com.rungroup.web.models.Event;
+import com.rungroup.web.models.UserEntity;
+import com.rungroup.web.security.SecurityUtil;
 import com.rungroup.web.service.EventService;
+import com.rungroup.web.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,14 +21,24 @@ import java.util.List;
 @Controller
 public class EventController {
     EventService eventService;
+    UserService userService;
 
     @Autowired
-    public EventController(EventService eventService) {
+    public EventController(EventService eventService, UserService userService) {
         this.eventService = eventService;
+        this.userService = userService;
     }
 
     @GetMapping("/events")
     public String listEvents(Model model) {
+        UserEntity user = new UserEntity();
+        String username = SecurityUtil.getSessionUser();
+        if (username != null) {
+            user = userService.findByUsername(username);
+            model.addAttribute("user", user);
+        }
+        model.addAttribute("user", user);
+
         List<EventDto> events = eventService.findAllEvents();
         model.addAttribute("events", events);
         return "events-list";
@@ -33,7 +46,20 @@ public class EventController {
 
     @GetMapping("/events/{eventId}/edit")
     public String editEventForm(@PathVariable("eventId") Long eventId, Model model) {
+
         EventDto eventDto = eventService.findByEventId(eventId);
+
+        String username = SecurityUtil.getSessionUser();
+
+        UserEntity user = new UserEntity();
+        user = userService.findByUsername(username);
+
+        UserEntity creator = eventDto.getClub().getCreatedBy();
+        if (creator != user) {
+            return "redirect:/clubs";
+        }
+
+
         model.addAttribute("event", eventDto);
         return "events-edit";
     }
@@ -54,6 +80,14 @@ public class EventController {
 
     @GetMapping("/events/{eventId}")
     public String viewEvent(@PathVariable("eventId") Long eventId, Model model) {
+        UserEntity user = new UserEntity();
+        String username = SecurityUtil.getSessionUser();
+        if (username != null) {
+            user = userService.findByUsername(username);
+            model.addAttribute("user", user);
+        }
+        model.addAttribute("user", user);
+
         EventDto eventDto = eventService.findByEventId(eventId);
         model.addAttribute("event", eventDto);
         return "events-detail";
@@ -72,6 +106,7 @@ public class EventController {
         eventService.deleteEvent(eventId);
         return "redirect:/events";
     }
+
     @PostMapping("events/{clubId}/new")
     public String createEvent(@PathVariable("clubId") Long clubId, @Valid @ModelAttribute("event") EventDto eventDto, BindingResult result, Model model) {
         if (result.hasErrors()) {
