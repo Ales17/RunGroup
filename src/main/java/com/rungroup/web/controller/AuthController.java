@@ -1,6 +1,6 @@
 package com.rungroup.web.controller;
 
-import com.rungroup.web.dto.RegistrationDto;
+import com.rungroup.web.dto.UserDto;
 import com.rungroup.web.models.UserEntity;
 import com.rungroup.web.service.UserService;
 import jakarta.validation.Valid;
@@ -28,13 +28,13 @@ public class AuthController {
 
     @GetMapping("/register")
     public String getRegisterForm(Model model) {
-        RegistrationDto user = new RegistrationDto();
+        UserDto user = new UserDto();
         model.addAttribute("user", user);
         return "register";
     }
 
     @PostMapping("/register/save")
-    public String register(@Valid @ModelAttribute("user") RegistrationDto user,
+    public String register(@Valid @ModelAttribute("user") UserDto user,
                            BindingResult result, Model model) {
         UserEntity existingUserEmail = userService.findByEmail(user.getEmail());
         if (existingUserEmail != null && existingUserEmail.getEmail() != null && !existingUserEmail.getEmail().isEmpty()) {

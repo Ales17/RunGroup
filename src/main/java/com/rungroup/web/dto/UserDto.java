@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class RegistrationDto {
+public class UserDto {
     private Long id;
     @NotEmpty
     private String username;

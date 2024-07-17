@@ -1,6 +1,6 @@
 package com.rungroup.web.service.impl;
 
-import com.rungroup.web.dto.RegistrationDto;
+import com.rungroup.web.dto.UserDto;
 import com.rungroup.web.models.Role;
 import com.rungroup.web.models.UserEntity;
 import com.rungroup.web.repository.RoleRepository;
@@ -26,13 +26,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(RegistrationDto registrationDto) {
-        String encodedPasswd = passwordEncoder.encode(registrationDto.getPassword());
+    public void saveUser(UserDto userDto) {
+        String encodedPasswd = passwordEncoder.encode(userDto.getPassword());
         UserEntity user = UserEntity
                 .builder()
-                .username(registrationDto.getUsername())
+                .username(userDto.getUsername())
                 .password(encodedPasswd)
-                .email(registrationDto.getEmail())
+                .email(userDto.getEmail())
                 .build();
         Role role = roleRepository.findByName("ROLE_USER");
         user.setRoles(Set.of(role));
