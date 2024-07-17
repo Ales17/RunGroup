@@ -28,7 +28,7 @@ public class AuthController {
 
     @GetMapping("/register")
     public String getRegisterForm(Model model) {
-        UserDto user = new UserDto();
+        UserEntity user = new UserEntity();
         model.addAttribute("user", user);
         return "register";
     }
