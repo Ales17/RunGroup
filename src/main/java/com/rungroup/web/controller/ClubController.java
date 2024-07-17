@@ -3,11 +3,13 @@ package com.rungroup.web.controller;
 import com.rungroup.web.dto.ClubDto;
 import com.rungroup.web.models.Club;
 import com.rungroup.web.models.UserEntity;
+import com.rungroup.web.security.SecurityService;
 import com.rungroup.web.security.SecurityUtil;
 import com.rungroup.web.service.ClubService;
 import com.rungroup.web.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,11 +21,12 @@ import java.util.List;
 public class ClubController {
     private ClubService clubService;
     private UserService userService;
-
+    private SecurityService securityService;
     @Autowired
-    public ClubController(ClubService clubService, UserService userService) {
+    public ClubController(ClubService clubService, UserService userService, SecurityService securityService) {
         this.clubService = clubService;
         this.userService = userService;
+        this.securityService = securityService;
     }
 
     @GetMapping({"/clubs", "/"})
@@ -64,12 +67,6 @@ public class ClubController {
         return "clubs-create";
     }
 
-    @GetMapping("/clubs/{clubId}/delete")
-    public String deleteClub(@PathVariable("clubId") Long clubId) {
-        clubService.delete(clubId);
-        return "redirect:/clubs";
-    }
-
     @GetMapping("/clubs/search")
     public String searchClubs(@RequestParam("query") String query, Model model) {
         List<ClubDto> clubs = clubService.searchClubs(query);
@@ -88,13 +85,15 @@ public class ClubController {
     }
 
     @GetMapping("/clubs/{clubId}/edit")
-    public String editClub(@PathVariable Long clubId, Model model) {
+    @PreAuthorize("@securityService.isClubOwner(#clubId)")
+    public String editClub(@PathVariable("clubId") Long clubId, Model model) {
         ClubDto clubDto = clubService.findClubById(clubId);
         model.addAttribute("club", clubDto);
         return "clubs-edit";
     }
 
     @PostMapping("/clubs/{clubId}/edit")
+    @PreAuthorize("@securityService.isClubOwner(#clubId)")
     // It is important to put attribute name behind @ModelAttribute("attributeName")
     public String updateClub(@PathVariable Long clubId, Model model, @Valid @ModelAttribute("club") ClubDto club,
                              BindingResult result) {
@@ -104,6 +103,13 @@ public class ClubController {
         }
         club.setId(clubId);
         clubService.updateClub(club);
+        return "redirect:/clubs";
+    }
+
+    @GetMapping("/clubs/{clubId}/delete")
+    @PreAuthorize("@securityService.isClubOwner(#clubId)")
+    public String deleteClub(@PathVariable("clubId") Long clubId) {
+        clubService.delete(clubId);
         return "redirect:/clubs";
     }
 }
