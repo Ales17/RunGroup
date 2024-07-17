@@ -1,0 +1,17 @@
+<html>
+<table class="table" id="users">
+    <tbody hx-swap="outerHTML" hx-target="closest tr">
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+        <td>
+            <button class="btn btn-primary" hx-trigger="click"
+                    th:hx-get="@{admin/users/{userId}/edit(userId=${user.id})}"
+            >Edit
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</html>

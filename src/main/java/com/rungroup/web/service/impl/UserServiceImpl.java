@@ -1,6 +1,7 @@
 package com.rungroup.web.service.impl;
 
 import com.rungroup.web.dto.UserDto;
+import com.rungroup.web.mapper.UserMapper;
 import com.rungroup.web.models.Role;
 import com.rungroup.web.models.UserEntity;
 import com.rungroup.web.repository.RoleRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -47,5 +49,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<UserDto> findAll() {
+        return userRepository.findAll().stream().map(UserMapper::mapUserToDto).toList();
     }
 }
