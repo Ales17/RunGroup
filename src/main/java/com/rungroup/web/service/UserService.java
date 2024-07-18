@@ -10,6 +10,8 @@ public interface UserService {
 
     void updateUser(UserDto userDto);
 
+    UserDto updateUserWithoutPassword(UserDto userDto);
+
     UserEntity findByUsername(String username);
 
     UserEntity findByEmail(String email);

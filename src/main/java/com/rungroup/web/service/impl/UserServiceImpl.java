@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+import static com.rungroup.web.mapper.UserMapper.mapUserToDto;
 import static com.rungroup.web.mapper.UserMapper.mapUserToEntity;
 
 @Service
@@ -49,6 +50,17 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    // Updates user, but keeps the password
+    @Override
+    public UserDto updateUserWithoutPassword(UserDto userDto) {
+        UserEntity entity = userRepository.findById(userDto.getId()).get();
+
+        UserEntity user = mapUserToEntity(userDto);
+        user.setPassword(entity.getPassword());
+
+        return mapUserToDto(userRepository.save(user));
+    }
+
     @Override
     public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -67,6 +79,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findById(Long userId) {
         UserEntity user = userRepository.findById(userId).get();
-        return UserMapper.mapUserToDto(user);
+        return mapUserToDto(user);
     }
 }

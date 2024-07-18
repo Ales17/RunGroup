@@ -31,6 +31,7 @@ public class AdminController {
     public String listUsers(Model model) {
         List<UserDto> users = userService.findAll();
         model.addAttribute("users", users);
+        // Table containing all users
         return "admin/users";
     }
 
@@ -38,6 +39,7 @@ public class AdminController {
     public String userDetail(Model model, @PathVariable Long userId) {
         UserDto user = userService.findById(userId);
         model.addAttribute("user", user);
+        // Single user row if edit is canceled (HTMX)
         return "admin/users-row";
     }
 
@@ -45,16 +47,13 @@ public class AdminController {
     public String editUserRow(Model model, @PathVariable Long userId) {
         UserDto user = userService.findById(userId);
         model.addAttribute("user", user);
+        // Single user row with fields to edit (HTMX)
         return "admin/users-row-edit";
     }
 
     @PutMapping("/users/{userId}/edit")
     public String editUser(Model model, @PathVariable Long userId, @ModelAttribute UserDto user) {
-        UserDto userDto = userService.findById(userId);
-        user.setPassword(userDto.getPassword());
-        userService.updateUser(user);
-
-        UserDto updatedUser = userService.findById(userId);
+        UserDto updatedUser = userService.updateUserWithoutPassword(user);
         model.addAttribute("user", updatedUser);
         // Return table row (tr) with updated user (HTMX)
         return "admin/users-row";
