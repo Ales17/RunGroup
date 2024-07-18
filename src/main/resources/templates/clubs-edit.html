@@ -11,12 +11,12 @@
     <!-- Page Content-->
     <section layout:fragment="body" class="py-5">
         <div class="container">
-            <form id="club" role="form" method="POST" th:action="@{/clubs/{clubId}/edit(clubId=${club.getId()})}"
+            <form class="d-flex flex-column gap-2" id="club" method="POST" role="form"
+                  th:action="@{/clubs/{clubId}/edit(clubId=${club.getId()})}"
                   th:object="${club}">
                 <input type="hidden" th:field="*{id}"/>
-                <div class="form-row">
-                    <div class="mb-3">
-                        <label for="title">Title</label>
+                <div class="form-group">
+                    <label class="form-label" for="title">Title</label>
                         <input
                                 th:field="*{title}"
                                 type="text"
@@ -25,8 +25,8 @@
                                 class="form-control"/>
                         <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger" ></p>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="photourl">Photo URL</label>
+                <div class="form-group ">
+                    <label class="form-label" for="photourl">Photo URL</label>
                         <input
                                 th:field="*{photoUrl}"
                                 type="text"
@@ -36,8 +36,8 @@
                         <p th:if="${#fields.hasErrors('photoUrl')}" th:errors="*{photoUrl}" class="text-danger" ></p>
 
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="content">Content</label>
+                <div class="form-group ">
+                    <label class="form-label" for="content">Content</label>
                         <input
                                 th:field="*{content}"
                                 type="text"
@@ -47,7 +47,6 @@
                         <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-danger" ></p>
 
                     </div>
-                </div>
 
                 <button type="submit" class="btn btn-primary">Save</button>
 

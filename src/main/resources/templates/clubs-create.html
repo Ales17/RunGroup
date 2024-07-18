@@ -11,10 +11,10 @@
     <!-- Page Content-->
     <section layout:fragment="body" class="py-5">
         <div class="container">
-            <form role="form" method="POST" th:action="@{/clubs/new}" th:object="${club}">
-                <div class="form-row">
-                    <div class="form-group mb-3">
-                        <label for="title">Title</label>
+            <form class="d-flex flex-column gap-2" method="POST" role="form" th:action="@{/clubs/new}"
+                  th:object="${club}">
+                <div class="form-group ">
+                    <label class="form-label" for="title">Title</label>
                         <input
                                 th:field="*{title}"
                                 type="text"
@@ -24,8 +24,8 @@
                         <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></p>
 
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="photourl">Photo URL</label>
+                <div class="form-group ">
+                    <label class="form-label" for="photourl">Photo URL</label>
                         <input
                                 th:field="*{photoUrl}"
                                 type="text"
@@ -35,8 +35,8 @@
                         <p th:if="${#fields.hasErrors('photoUrl')}" th:errors="*{photoUrl}" class="text-danger" ></p>
 
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="content">Content</label>
+                <div class="form-group ">
+                    <label class="form-label" for="content">Content</label>
                         <input
                                 th:field="*{content}"
                                 type="text"
@@ -46,7 +46,6 @@
                         <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-danger" ></p>
 
                     </div>
-                </div>
 
                 <button type="submit" class="btn btn-primary">Create</button>
 

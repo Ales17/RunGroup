@@ -29,7 +29,7 @@
                 <form class="form-inline my-2 mb-3" th:action="@{/clubs/search}">
                     <div class="input-group">
 
-                        <input class="form-control" id="query" name="query" type="search"/>
+                        <input aria-label="Search clubs" class="form-control" id="query" name="query" type="search"/>
 
                         <input class="btn btn-primary" type="submit" value="Search">
                     </div>
@@ -39,16 +39,19 @@
             <div class="row g-4">
 
                 <div th:each="club :${clubs} " class="col-lg-6">
-                    <div class="position-relative mb-5">
+                    <div class="position-relative mb-3">
                         <!--Random param to prove images would not be the same-->
                         <img class="img-fluid rounded-3 mb-3" th:src="${club.photoUrl}+'?random='+${club.id}"
                              alt="..."/>
                         <h3 class="h3 fw-bolder"
                             th:text="${club.title}"></h3>
                     </div>
-                    <a th:href="@{/clubs/{clubId}(clubId=${club.id})}" class="btn btn-primary">Detail</a>
-                    <div th:if="${user.id}==${club.createdBy.id}">
-                        <a class="btn btn-primary" th:href="@{/clubs/{clubId}/edit(clubId=${club.id})}">Edit</a>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-primary" th:href="@{/clubs/{clubId}(clubId=${club.id})}">Detail</a>
+
+                        <a class="btn btn-warning" th:href="@{/clubs/{clubId}/edit(clubId=${club.id})}"
+                           th:if="${user.id}==${club.createdBy.id}">Edit</a>
+
                     </div>
                 </div>
             </div>

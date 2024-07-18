@@ -12,7 +12,7 @@
             <div class="container">
                 <div class="text-center my-5">
                     <h1 class="fw-bolder" th:text="*{event.name}"></h1>
-                    <p class="lead mb-0">A great event to join</p>
+                    <p class="lead mb-0" th:text="*{event.type}"></p>
                 </div>
             </div>
         </header>
@@ -23,11 +23,12 @@
                     <!-- Featured blog post-->
                     <div class="card mb-4">
                         <a href="#!"><img alt="..." class="card-img-top"
-                                          th:src="${event.photoUrl}+'?random='+${eventId}"></a>
+                                          th:src="${event.photoUrl}+'?random='+${event.id}"></a>
                         <div class="card-body">
-                            <div class="small text-muted" th:text="*{event.createdOn}"></div>
+                            <div class="small text-muted" th:text="${#temporals.format(event.startTime, 'dd MMM yyyy HH:mm', #locale.ENGLISH)} +
+                             ' - ' + ${#temporals.format(event.endTime, 'dd MMM yyyy HH:mm', #locale.ENGLISH)}"></div>
                             <h2 class="card-title">About this event</h2>
-                            <p class="card-text" th:text="A"></p>
+                            <p class="card-text" th:text="'Club: '+${event.club.title}"></p>
                             <div th:if="${user.id}==${event.club.createdBy.id}">
                                 <a class="btn btn-danger"
                                    th:href="@{/events/{eventId}/delete(eventId=${event.id})}">Delete</a>
@@ -40,18 +41,7 @@
                 </div>
                 <!-- Side widgets-->
                 <div class="col-lg-4">
-                    <!-- Search widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Search</div>
-                        <div class="card-body">
-                            <div class="input-group">
-                                <input aria-describedby="button-search" aria-label="Enter search term..."
-                                       class="form-control"
-                                       placeholder="Enter search term..." type="text">
-                                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
-                            </div>
-                        </div>
-                    </div>
+
                     <!-- Categories widget-->
                     <div class="card mb-4">
                         <div class="card-header">Categories</div>
@@ -70,9 +60,13 @@
                     </div>
                     <!-- Side widget-->
                     <div class="card mb-4">
-                        <div class="card-header">Side Widget</div>
-                        <div class="card-body">You can put anything you want inside of these side widgets. They are easy
-                            to use, and feature the Bootstrap 5 card component!
+                        <div class="card-header">About the club</div>
+                        <div class="card-body">Pellentesque pretium lectus id turpis. Curabitur vitae diam non enim
+                            vestibulum
+                            interdum. Fusce nibh. Mauris dictum facilisis augue. Curabitur ligula sapien, pulvinar a
+                            vestibulum quis, facilisis vel sapien. Aenean id metus id velit ullamcorper pulvinar. Etiam
+                            quis quam. Nullam rhoncus aliquam metus. Fusce wisi. Pellentesque ipsum. Duis risus. Nullam
+                            faucibus mi quis velit.
                         </div>
                     </div>
                 </div>
