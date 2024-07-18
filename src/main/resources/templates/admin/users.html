@@ -1,5 +1,13 @@
 <html>
-<table class="table" id="users">
+<table class="table table-responsive" id="users">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>E-mail</th>
+        <th>Operations</th>
+    </tr>
+    </thead>
     <tbody hx-swap="outerHTML" hx-target="closest tr">
     <tr th:each="user : ${users}">
         <td th:text="${user.id}"></td>

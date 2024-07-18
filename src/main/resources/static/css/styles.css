@@ -1,8 +1,13 @@
 @font-face {
     font-family: Montserrat;
-    src: url("/assets/Montserrat-VariableFont_wght.ttf");
+    src: url('/assets/Montserrat-VariableFont_wght.ttf');
     font-weight: auto;
 }
+
 body {
     font-family: "Montserrat", sans-serif
+}
+
+#users {
+    vertical-align: middle;
 }

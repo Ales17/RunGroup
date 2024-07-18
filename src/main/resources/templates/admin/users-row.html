@@ -1,0 +1,11 @@
+<tr th:object="${user}">
+    <td th:text="${user.id}"></td>
+    <td th:text="${user.username}"></td>
+    <td th:text="${user.email}"></td>
+    <td>
+        <button class="btn btn-primary" hx-trigger="click"
+                th:hx-get="@{admin/users/{user.id}/edit(user.id=${user.id})}"
+        >Edit
+        </button>
+    </td>
+</tr>

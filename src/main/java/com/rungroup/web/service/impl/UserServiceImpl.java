@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+import static com.rungroup.web.mapper.UserMapper.mapUserToEntity;
+
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
@@ -42,6 +44,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUser(UserDto userDto) {
+        UserEntity user = mapUserToEntity(userDto);
+        userRepository.save(user);
+    }
+
+    @Override
     public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -54,5 +62,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAll() {
         return userRepository.findAll().stream().map(UserMapper::mapUserToDto).toList();
+    }
+
+    @Override
+    public UserDto findById(Long userId) {
+        UserEntity user = userRepository.findById(userId).get();
+        return UserMapper.mapUserToDto(user);
     }
 }
