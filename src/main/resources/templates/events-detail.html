@@ -4,7 +4,7 @@
 <head>
     <title>Event detail</title>
 </head>
-<body class="d-flex flex-column h-100">
+<body>
 <main class="flex-shrink-0">
     <!-- Page Content-->
     <section class="" layout:fragment="body">
@@ -41,32 +41,10 @@
                 </div>
                 <!-- Side widgets-->
                 <div class="col-lg-4">
-
-                    <!-- Categories widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Categories</div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">Road Runner</a></li>
-                                        <li><a href="#!">Trail</a></li>
-                                        <li><a href="#!">Marathon</a></li>
-                                    </ul>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
                     <!-- Side widget-->
                     <div class="card mb-4">
                         <div class="card-header">About the club</div>
-                        <div class="card-body">Pellentesque pretium lectus id turpis. Curabitur vitae diam non enim
-                            vestibulum
-                            interdum. Fusce nibh. Mauris dictum facilisis augue. Curabitur ligula sapien, pulvinar a
-                            vestibulum quis, facilisis vel sapien. Aenean id metus id velit ullamcorper pulvinar. Etiam
-                            quis quam. Nullam rhoncus aliquam metus. Fusce wisi. Pellentesque ipsum. Duis risus. Nullam
-                            faucibus mi quis velit.
+                        <div class="card-body" th:text="${event.club.content}">
                         </div>
                     </div>
                 </div>
