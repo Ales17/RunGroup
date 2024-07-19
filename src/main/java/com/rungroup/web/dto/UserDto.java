@@ -1,5 +1,6 @@
 package com.rungroup.web.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,11 @@ public class UserDto {
     private String username;
     @NotEmpty
     private String password;
+    @Email
     @NotEmpty
     private String email;
+    @NotEmpty
+    private String givenName;
+    @NotEmpty
+    private String familyName;
 }

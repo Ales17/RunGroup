@@ -40,6 +40,8 @@ public class UserServiceImpl implements UserService {
                 .username(userDto.getUsername())
                 .password(encodedPasswd)
                 .email(userDto.getEmail())
+                .familyName(userDto.getFamilyName())
+                .givenName(userDto.getGivenName())
                 .build();
         Role role = roleRepository.findByName("ROLE_USER");
         user.setRoles(Set.of(role));
