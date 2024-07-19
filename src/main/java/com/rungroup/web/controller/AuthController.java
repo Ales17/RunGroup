@@ -1,5 +1,6 @@
 package com.rungroup.web.controller;
 
+import com.rungroup.web.dto.PasswordDto;
 import com.rungroup.web.dto.UserDto;
 import com.rungroup.web.models.UserEntity;
 import com.rungroup.web.service.UserService;
@@ -21,6 +22,29 @@ public class AuthController {
         this.userService = userService;
     }
 
+    @GetMapping("/user")
+    public String userPage(Model model) {
+        PasswordDto passwordDto = new PasswordDto();
+        model.addAttribute("passwordDto", passwordDto);
+        return "user";
+    }
+
+    @PostMapping("/user/password")
+    public String changePassword(@Valid @ModelAttribute("passwordDto") PasswordDto passwordDto, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("passwordDto", passwordDto);
+            return "user";
+        }
+
+        boolean hasPasswordChanged = userService.updatePassword(passwordDto);
+
+        if (!hasPasswordChanged) {
+            return "redirect:/user?error";
+        }
+
+        return "redirect:/user?success";
+    }
     @GetMapping("/login")
     public String loginPage() {
         return "login";

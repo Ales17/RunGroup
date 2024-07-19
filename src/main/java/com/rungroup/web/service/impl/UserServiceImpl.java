@@ -1,5 +1,6 @@
 package com.rungroup.web.service.impl;
 
+import com.rungroup.web.dto.PasswordDto;
 import com.rungroup.web.dto.UserDto;
 import com.rungroup.web.mapper.UserMapper;
 import com.rungroup.web.models.Role;
@@ -16,6 +17,7 @@ import java.util.Set;
 
 import static com.rungroup.web.mapper.UserMapper.mapUserToDto;
 import static com.rungroup.web.mapper.UserMapper.mapUserToEntity;
+import static com.rungroup.web.security.SecurityUtil.getSessionUser;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -48,6 +50,33 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserDto userDto) {
         UserEntity user = mapUserToEntity(userDto);
         userRepository.save(user);
+    }
+
+    private boolean areInputsValid(PasswordDto passwordDto) {
+        String currentPassword = passwordDto.getCurrentPassword();
+        String newPassword = passwordDto.getNewPassword();
+        String newPasswordAgain = passwordDto.getNewPasswordAgain();
+
+        return currentPassword != null && newPasswordAgain != null && newPasswordAgain.equals(newPassword);
+    }
+
+    @Override
+    public boolean updatePassword(PasswordDto passwordDto) {
+
+        if (!areInputsValid(passwordDto)) {
+            return false;
+        }
+
+        String currentUsername = getSessionUser();
+        UserEntity user = userRepository.findFirstByUsername(currentUsername);
+
+        if (passwordEncoder.matches(passwordDto.getCurrentPassword(), user.getPassword())) {
+            String encodedNewPasswd = passwordEncoder.encode(passwordDto.getNewPassword());
+            user.setPassword(encodedNewPasswd);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
     // Updates user, but keeps the password

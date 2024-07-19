@@ -1,0 +1,65 @@
+<html
+        layout:decorate="~{layout}"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Club Create</title>
+</head>
+<body>
+<main class="flex-shrink-0">
+
+
+    <!-- Page Content-->
+    <section class="py-5" layout:fragment="body">
+        <div class="container col-md-6">
+            <div class="alert alert-success" th:if="${param.success}">Password changed successfully.</div>
+
+            <form class="d-flex flex-column gap-2" method="POST" th:action="@{/user/password}"
+                  th:object="${passwordDto}">
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('*')} or ${param.error}">
+                    Check the credentials and try again.
+                </div>
+                <div>
+                    <label class="form-label" for="currentPassword">Current Password</label>
+                    <input autocomplete="current-password"
+                           class="form-control"
+                           id="currentPassword"
+                           name="currentPassword"
+                           required
+                           th:field="*{currentPassword}"
+                           type="password"
+                    >
+
+
+                </div>
+
+                <div>
+                    <label class="form-label" for="newPassword">New Password</label>
+                    <input autocomplete="new-password"
+                           class="form-control"
+                           id="newPassword"
+                           minlength="5"
+                           name="newPassword"
+                           required
+                           th:field="*{newPassword}"
+                           type="password">
+                    <div class="form-text">At least 5 characters</div>
+
+                </div>
+                <div>
+                    <label class="form-label" for="newPasswordAgain">New Password Again</label>
+                    <input autocomplete="new-password"
+                           class="form-control"
+                           id="newPasswordAgain"
+                           minlength="5"
+                           name="newPasswordAgain"
+                           required
+                           type="password">
+                    <div class="form-text">At least 5 characters</div>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Save">
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>
