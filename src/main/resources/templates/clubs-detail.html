@@ -71,14 +71,21 @@
                 <div class="col-lg-4">
                     <!-- Search widget-->
                     <div class="card mb-4">
-                        <div class="card-header">Search</div>
+                        <div class="card-header">Search Clubs</div>
                         <div class="card-body">
+                            <form th:action="@{/clubs/search}">
                             <div class="input-group">
-                                <input aria-describedby="button-search" aria-label="Enter search term..."
+
+                                <input aria-describedby="button-search"
+                                       aria-label="Search clubs"
+                                       id="q"
+                                       name="q"
                                        class="form-control"
                                        placeholder="Enter search term..." type="text">
                                 <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+
                             </div>
+                            </form>
                         </div>
                     </div>
                     <!-- Categories widget-->

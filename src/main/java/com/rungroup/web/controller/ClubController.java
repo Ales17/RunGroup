@@ -68,7 +68,15 @@ public class ClubController {
     }
 
     @GetMapping("/clubs/search")
-    public String searchClubs(@RequestParam("query") String query, Model model) {
+    public String searchClubs(@RequestParam("q") String query, Model model) {
+        UserEntity user = new UserEntity();
+        String username = SecurityUtil.getSessionUser();
+        if (username != null) {
+            user = userService.findByUsername(username);
+            model.addAttribute("user", user);
+        }
+        model.addAttribute("user", user);
+
         List<ClubDto> clubs = clubService.searchClubs(query);
         model.addAttribute("clubs", clubs);
         return "clubs-list";
