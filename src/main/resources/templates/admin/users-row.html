@@ -2,9 +2,11 @@
     <td th:text="${user.id}"></td>
     <td th:text="${user.username}"></td>
     <td th:text="${user.email}"></td>
+    <td th:text="${user.givenName}"></td>
+    <td th:text="${user.familyName}"></td>
     <td>
         <button class="btn btn-primary" hx-trigger="click"
-                th:hx-get="@{admin/users/{user.id}/edit(user.id=${user.id})}"
+                th:hx-get="@{admin/users/{userId}/edit(userId=${user.id})}"
         >Edit
         </button>
     </td>
