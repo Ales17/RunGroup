@@ -3,7 +3,6 @@ package com.rungroup.web.controller;
 import com.rungroup.web.dto.ClubDto;
 import com.rungroup.web.models.Club;
 import com.rungroup.web.models.UserEntity;
-import com.rungroup.web.security.SecurityService;
 import com.rungroup.web.security.SecurityUtil;
 import com.rungroup.web.service.ClubService;
 import com.rungroup.web.service.UserService;
@@ -21,12 +20,10 @@ import java.util.List;
 public class ClubController {
     private ClubService clubService;
     private UserService userService;
-    private SecurityService securityService;
     @Autowired
-    public ClubController(ClubService clubService, UserService userService, SecurityService securityService) {
+    public ClubController(ClubService clubService, UserService userService) {
         this.clubService = clubService;
         this.userService = userService;
-        this.securityService = securityService;
     }
 
     @GetMapping({"/clubs", "/"})
