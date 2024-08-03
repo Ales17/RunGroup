@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class ErrorControllerImpl implements ErrorController {
+public class CustomErrorController implements ErrorController {
 
     public String statusCodeDescription(int statusCode) {
         return switch (statusCode) {
