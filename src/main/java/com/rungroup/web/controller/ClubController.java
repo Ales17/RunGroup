@@ -7,6 +7,7 @@ import com.rungroup.web.security.SecurityUtil;
 import com.rungroup.web.service.ClubService;
 import com.rungroup.web.service.StorageService;
 import com.rungroup.web.service.UserService;
+import com.rungroup.web.storage.UrlConstants;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,11 +19,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static com.rungroup.web.storage.RandomPhotoUrlUtil.getRandomPhotoUrl;
+
 @Controller
 public class ClubController {
     private ClubService clubService;
     private UserService userService;
     private StorageService storageService;
+
 
     @Autowired
     public ClubController(ClubService clubService, UserService userService, StorageService storageService) {
@@ -93,10 +97,9 @@ public class ClubController {
 
         try {
             storageService.store(file);
-            String rootLocation = "files/";
-            clubDto.setPhotoUrl(rootLocation + file.getOriginalFilename());
+            clubDto.setPhotoUrl(UrlConstants.ROOT_LOCATION + file.getOriginalFilename());
         } catch (Exception e) {
-            clubDto.setPhotoUrl("https://picsum.photos/800/600");
+            clubDto.setPhotoUrl(getRandomPhotoUrl());
             System.out.println(e.getMessage() + "Random photo URL will be used instead.");
         }
 
