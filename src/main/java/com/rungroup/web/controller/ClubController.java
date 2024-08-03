@@ -5,6 +5,7 @@ import com.rungroup.web.models.Club;
 import com.rungroup.web.models.UserEntity;
 import com.rungroup.web.security.SecurityUtil;
 import com.rungroup.web.service.ClubService;
+import com.rungroup.web.service.StorageService;
 import com.rungroup.web.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,10 +22,13 @@ import java.util.List;
 public class ClubController {
     private ClubService clubService;
     private UserService userService;
+    private StorageService storageService;
+
     @Autowired
-    public ClubController(ClubService clubService, UserService userService) {
+    public ClubController(ClubService clubService, UserService userService, StorageService storageService) {
         this.clubService = clubService;
         this.userService = userService;
+        this.storageService = storageService;
     }
 
     @GetMapping({"/clubs", "/"})
@@ -80,11 +85,21 @@ public class ClubController {
     }
 
     @PostMapping("/clubs/new")
-    public String saveClub(Model model, @Valid @ModelAttribute("club") ClubDto clubDto, BindingResult result) {
+    public String saveClub(Model model, @Valid @ModelAttribute("club") ClubDto clubDto, BindingResult result, @RequestParam("photo") MultipartFile file) {
         if (result.hasErrors()) {
             model.addAttribute("club", clubDto);
             return "clubs-create";
         }
+
+        try {
+            storageService.store(file);
+            String rootLocation = "files/";
+            clubDto.setPhotoUrl(rootLocation + file.getOriginalFilename());
+        } catch (Exception e) {
+            clubDto.setPhotoUrl("https://picsum.photos/800/600");
+            System.out.println(e.getMessage() + "Random photo URL will be used instead.");
+        }
+
         clubService.saveClub(clubDto);
         return "redirect:/clubs";
     }
