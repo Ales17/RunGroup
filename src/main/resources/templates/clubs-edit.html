@@ -11,7 +11,7 @@
     <!-- Page Content-->
     <section layout:fragment="body" class="py-5">
         <div class="container">
-            <form class="d-flex flex-column gap-2" id="club" method="POST" role="form"
+            <form class="d-flex flex-column gap-2" enctype="multipart/form-data" id="club" method="post" role="form"
                   th:action="@{/clubs/{clubId}/edit(clubId=${club.getId()})}"
                   th:object="${club}">
                 <input type="hidden" th:field="*{id}"/>

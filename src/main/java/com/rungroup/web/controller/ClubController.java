@@ -115,7 +115,7 @@ public class ClubController {
         return "clubs-edit";
     }
 
-    @PostMapping("/clubs/{clubId}/edit")
+    @PostMapping(value = "/clubs/{clubId}/edit", consumes = "multipart/form-data")
     @PreAuthorize("@securityService.isClubOwner(#clubId)")
     // It is important to put attribute name behind @ModelAttribute("attributeName")
     public String updateClub(@PathVariable Long clubId, Model model, @Valid @ModelAttribute("club") ClubDto club,
