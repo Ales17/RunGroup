@@ -88,7 +88,7 @@ public class ClubController {
         return "clubs-list";
     }
 
-    @PostMapping("/clubs/new")
+    @PostMapping(value = "/clubs/new", consumes = "multipart/form-data")
     public String saveClub(Model model, @Valid @ModelAttribute("club") ClubDto clubDto, BindingResult result, @RequestParam("photo") MultipartFile file) {
         if (result.hasErrors()) {
             model.addAttribute("club", clubDto);
@@ -96,11 +96,11 @@ public class ClubController {
         }
 
         try {
-            storageService.store(file);
-            clubDto.setPhotoUrl(UrlConstants.ROOT_LOCATION + file.getOriginalFilename());
+            String uploadedFileName = storageService.store(file);
+            clubDto.setPhotoUrl(UrlConstants.ROOT_LOCATION + uploadedFileName);
         } catch (Exception e) {
             clubDto.setPhotoUrl(getRandomPhotoUrl());
-            System.out.println(e.getMessage() + "Random photo URL will be used instead.");
+            System.out.println(e.getMessage() + " -> Random photo URL will be used instead.");
         }
 
         clubService.saveClub(clubDto);

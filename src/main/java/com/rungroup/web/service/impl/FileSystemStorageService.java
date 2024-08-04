@@ -18,7 +18,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 import java.util.stream.Stream;
+
+import static org.apache.commons.io.FilenameUtils.getExtension;
 
 @Service
 public class FileSystemStorageService implements StorageService {
@@ -35,14 +38,21 @@ public class FileSystemStorageService implements StorageService {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
+    private String newFileName(String originalName) {
+        String newBaseName = UUID.randomUUID().toString();
+        String extension = getExtension(originalName);
+        return String.format("%s.%s", newBaseName, extension);
+    }
+
     @Override
-    public void store(MultipartFile file) {
+    public String store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
+            String newFileName = newFileName(file.getOriginalFilename());
             Path destinationFile = this.rootLocation.resolve(
-                            Paths.get(file.getOriginalFilename()))
+                            Paths.get(newFileName))
                     .normalize().toAbsolutePath();
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
@@ -52,6 +62,7 @@ public class FileSystemStorageService implements StorageService {
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile,
                         StandardCopyOption.REPLACE_EXISTING);
+                return newFileName;
             }
         } catch (IOException e) {
             throw new StorageException("Failed to store file.", e);
