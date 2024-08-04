@@ -7,16 +7,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 public class CustomErrorController implements ErrorController {
 
+    public final String NO_DESCRIPTION_ERROR = "Error";
+    private final Map<Integer, String> statusCodeMessages = new HashMap<>();
+
+    public CustomErrorController() {
+        statusCodeMessages.put(401, "You are not logged in.");
+        statusCodeMessages.put(403, "You are not permitted to do this.");
+        statusCodeMessages.put(404, "We could not find this page");
+        statusCodeMessages.put(415, "This content type is not supported.");
+    }
+
     public String statusCodeDescription(int statusCode) {
-        return switch (statusCode) {
-            case 401 -> "You are not logged in.";
-            case 403 -> "You have no permission do perform this operation.";
-            case 404 -> "We could not find this page.";
-            default -> "Error";
-        };
+        String description = statusCodeMessages.get(statusCode);
+        if (description == null) {
+            return NO_DESCRIPTION_ERROR;
+        }
+        return description;
     }
 
     @RequestMapping("/error")
