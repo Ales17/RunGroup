@@ -15,6 +15,9 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import static com.rungroup.web.storage.FileUtil.allowedFileTypes;
+import static org.apache.commons.io.FilenameUtils.getExtension;
+
 
 @RequestMapping("/files")
 @Controller
@@ -39,7 +42,7 @@ public class FileUploadController {
         return "admin/uploads";
     }
 
-    @GetMapping("{filename:.+}")
+    @GetMapping(value = "{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
@@ -49,7 +52,7 @@ public class FileUploadController {
             return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "inline").header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(file);
+                "inline").header(HttpHeaders.CONTENT_TYPE, allowedFileTypes.get(getExtension(filename))).body(file);
     }
 
     // TODO user friendly exception handling
