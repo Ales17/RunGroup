@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -27,6 +30,7 @@ import static org.apache.commons.io.FilenameUtils.getExtension;
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
+    private final Map<String, String> allowedFileTypes = Map.of("jpg", "image/jpeg", "jpeg", "image/jpeg", "png", "image/png");
 
     @Autowired
     public FileSystemStorageService(StorageProperties properties) {
@@ -54,11 +58,33 @@ public class FileSystemStorageService implements StorageService {
             Path destinationFile = this.rootLocation.resolve(
                             Paths.get(newFileName))
                     .normalize().toAbsolutePath();
+
+            String extension = getExtension(file.getOriginalFilename());
+
+            if (!allowedFileTypes.containsKey(extension)) {
+                String ex = String.format("The %s extension is not allowed.", extension);
+                throw new StorageException(ex);
+            }
+            // Allowed content type for current file extension
+            String pairedContentType = allowedFileTypes.get(extension);
+
+
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new StorageException(
                         "Cannot store file outside current directory.");
             }
+
+
+            InputStream is = new BufferedInputStream(file.getInputStream());
+            String mimeType = URLConnection.guessContentTypeFromStream(is);
+
+            if (!pairedContentType.equals(mimeType)) {
+                String ex = String.format("The %s does not allow this content type.", extension);
+                throw new StorageException(ex);
+            }
+
+
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile,
                         StandardCopyOption.REPLACE_EXISTING);
