@@ -39,10 +39,18 @@
             <div class="row g-4">
 
                 <div th:each="club :${clubs} " class="col-lg-6">
-                    <div class="position-relative mb-3">
-                        <!--Random param to prove images would not be the same-->
-                        <img class="img-fluid rounded-3 mb-3" th:src="${club.photoUrl}"
-                             alt="..."/>
+                    <div class="position-relative mb-3 ">
+                        <div class="rounded-3 mb-3 overflow-hidden">
+                            <img class="img-fluid list-image"
+                                 th:alt="${club.title + ' Running Club'}"
+                                 th:if="${club.photoUrl != null}"
+                                 th:src="${club.photoUrl}"
+                            />
+                            <div class="no-photo"
+                                 th:if="${club.photoUrl == null}">
+                                <div>No photo</div>
+                            </div>
+                        </div>
                         <h3 class="h3 fw-bolder"
                             th:text="${club.title}"></h3>
                     </div>
