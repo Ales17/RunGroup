@@ -8,8 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">RunGroup</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
-    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" type="text/css">
+    <link media="screen" rel="stylesheet" th:href="@{/css/styles.css}" type="text/css">
+    <link media="print" rel="stylesheet" th:href="@{/css/print.css}" type="text/css">
     <link rel="icon" th:href="@{/assets/favicon.ico}" type="image/x-icon"/>
 </head>
 <body class="min-vh-100 d-flex flex-column">
