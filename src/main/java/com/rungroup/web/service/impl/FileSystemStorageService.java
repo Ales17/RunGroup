@@ -21,9 +21,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Stream;
 
+import static com.rungroup.web.storage.FileUtil.newFileName;
 import static org.apache.commons.io.FilenameUtils.getExtension;
 
 @Service
@@ -42,49 +42,44 @@ public class FileSystemStorageService implements StorageService {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
-    private String newFileName(String originalName) {
-        String newBaseName = UUID.randomUUID().toString();
-        String extension = getExtension(originalName);
-        return String.format("%s.%s", newBaseName, extension);
-    }
 
     @Override
     public String store(MultipartFile file) {
         try {
+            // EMPTY CHECK
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
-            String newFileName = newFileName(file.getOriginalFilename());
+
+            // NOT STORE OUTSIDE DIR CHECK
+            String originalFilename = file.getOriginalFilename();
+            String newFileName = newFileName(originalFilename);
             Path destinationFile = this.rootLocation.resolve(
                             Paths.get(newFileName))
                     .normalize().toAbsolutePath();
-
-            String extension = getExtension(file.getOriginalFilename());
-
-            if (!allowedFileTypes.containsKey(extension)) {
-                String ex = String.format("The %s extension is not allowed.", extension);
-                throw new StorageException(ex);
-            }
-            // Allowed content type for current file extension
-            String pairedContentType = allowedFileTypes.get(extension);
-
 
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new StorageException(
                         "Cannot store file outside current directory.");
             }
-
+            // EXTENSION CHECK
+            String extension = getExtension(originalFilename);
+            if (!allowedFileTypes.containsKey(extension)) {
+                String ex = String.format("The %s extension is not allowed.", extension);
+                throw new StorageException(ex);
+            }
+            // Allowed MIME for extension, i.e. image/jpeg for jpg | image/png for png
+            String allowedMimeType = allowedFileTypes.get(extension);
 
             InputStream is = new BufferedInputStream(file.getInputStream());
-            String mimeType = URLConnection.guessContentTypeFromStream(is);
-
-            if (!pairedContentType.equals(mimeType)) {
+            String guessedMimeType = URLConnection.guessContentTypeFromStream(is);
+            // MIME CHECK
+            if (!allowedMimeType.equals(guessedMimeType)) {
                 String ex = String.format("The %s does not allow this content type.", extension);
                 throw new StorageException(ex);
             }
-
-
+            // SAVING
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile,
                         StandardCopyOption.REPLACE_EXISTING);
