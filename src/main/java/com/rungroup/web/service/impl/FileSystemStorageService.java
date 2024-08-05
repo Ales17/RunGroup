@@ -20,9 +20,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Map;
 import java.util.stream.Stream;
 
+import static com.rungroup.web.storage.FileUtil.allowedFileTypes;
 import static com.rungroup.web.storage.FileUtil.newFileName;
 import static org.apache.commons.io.FilenameUtils.getExtension;
 
@@ -30,7 +30,6 @@ import static org.apache.commons.io.FilenameUtils.getExtension;
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
-    private final Map<String, String> allowedFileTypes = Map.of("jpg", "image/jpeg", "jpeg", "image/jpeg", "png", "image/png");
 
     @Autowired
     public FileSystemStorageService(StorageProperties properties) {
