@@ -22,13 +22,9 @@
                 <div class="col-lg-8">
                     <!--Club Detail-->
                     <div class="card mb-4">
-                        <img class="card-img-top" th:alt="${club}" th:if="${!club.photoUrl.isEmpty()}"
+                        <img class="card-img-top" th:alt="${club.title}" th:if="${club.photoUrl != null}"
                              th:src="${club.photoUrl}">
-                        <div id="no-photo" th:if="${club.photoUrl.isEmpty()}">
-                            <div>This club does not have an image.</div>
-                        </div>
                         <div class="card-body">
-                            <!--                            <div class="small text-muted" th:text="*{club.createdOn}"></div>-->
                             <h2 class="card-title">About this running club</h2>
                             <p class="card-text" th:text="*{club.content}"></p>
                             <div th:if="${user.id}==${club.createdBy.id}">
