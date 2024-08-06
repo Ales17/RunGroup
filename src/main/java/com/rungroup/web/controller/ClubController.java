@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -87,19 +88,26 @@ public class ClubController {
     }
 
     @PostMapping(value = "/clubs/new", consumes = "multipart/form-data")
-    public String saveClub(Model model, @Valid @ModelAttribute("club") ClubDto clubDto, BindingResult result, @RequestParam("photo") MultipartFile file) {
+    public String saveClub(Model model, @Valid @ModelAttribute("club") ClubDto clubDto, BindingResult result, @RequestParam("photo") MultipartFile file, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             model.addAttribute("club", clubDto);
             return "clubs-create";
         }
-        try {
-            String uploadedFileName = storageService.store(file);
-            clubDto.setPhotoUrl(FileUtil.ROOT_LOCATION + uploadedFileName);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        // Allow user to crete a club without image
+        if (!file.isEmpty()) {
+            try {
+                String uploadedFileName = storageService.store(file);
+                clubDto.setPhotoUrl(FileUtil.ROOT_LOCATION + uploadedFileName);
+            } catch (Exception e) {
+                String message = e.getMessage();
+                System.err.println(message);
+                model.addAttribute("club", clubDto);
+                model.addAttribute("message", "An error occurred. Try again or leave blank for no photo.");
+                return "clubs-create";
+            }
         }
-        clubService.saveClub(clubDto);
-        return "redirect:/clubs";
+        Club c = clubService.saveClub(clubDto);
+        return "redirect:/clubs/" + c.getId();
     }
 
     @GetMapping("/clubs/{clubId}/edit")
