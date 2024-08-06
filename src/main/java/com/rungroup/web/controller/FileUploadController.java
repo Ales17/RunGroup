@@ -6,6 +6,7 @@ import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,10 +56,12 @@ public class FileUploadController {
                 "inline").header(HttpHeaders.CONTENT_TYPE, allowedFileTypes.get(getExtension(filename))).body(file);
     }
 
-    // TODO user friendly exception handling
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler(StorageFileNotFoundException.class)
-    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-        return ResponseEntity.notFound().build();
+    public String handleStorageFileNotFound(Model model) {
+        model.addAttribute("status", 404);
+        model.addAttribute("description", "We could not find this file.");
+        return "custom-error";
     }
 
 }
