@@ -9,7 +9,6 @@ import com.rungroup.web.service.StorageService;
 import com.rungroup.web.service.UserService;
 import com.rungroup.web.storage.FileUtil;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,27 +21,28 @@ import java.util.List;
 
 @Controller
 public class ClubController {
-    private ClubService clubService;
-    private UserService userService;
-    private StorageService storageService;
+    private final ClubService clubService;
+    private final UserService userService;
+    private final StorageService storageService;
+    // Helper for club form validation
+    private boolean isImageValid = false;
 
-
-    @Autowired
     public ClubController(ClubService clubService, UserService userService, StorageService storageService) {
         this.clubService = clubService;
         this.userService = userService;
         this.storageService = storageService;
     }
 
+    private void addUserToModel(Model model) {
+        String username = SecurityUtil.getSessionUser();
+        if (username == null) return;
+        UserEntity user = userService.findByUsername(username);
+        model.addAttribute("user", user);
+    }
+
     @GetMapping({"/clubs", "/"})
     public String listClubs(Model model) {
-        UserEntity user = new UserEntity();
-        String username = SecurityUtil.getSessionUser();
-        if (username != null) {
-            user = userService.findByUsername(username);
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("user", user);
+        addUserToModel(model);
 
         List<ClubDto> clubs = clubService.findAllClubs();
         model.addAttribute("clubs", clubs);
@@ -52,17 +52,19 @@ public class ClubController {
     @GetMapping("/clubs/{clubId}")
     public String clubDetail(Model model,
                              @PathVariable("clubId") long clubId) {
-        UserEntity user = new UserEntity();
-        String username = SecurityUtil.getSessionUser();
-        if (username != null) {
-            user = userService.findByUsername(username);
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("user", user);
+        addUserToModel(model);
 
         ClubDto clubDto = clubService.findClubById(clubId);
         model.addAttribute("club", clubDto);
         return "clubs-detail";
+    }
+
+    @GetMapping("/clubs/search")
+    public String searchClubs(@RequestParam("q") String query, Model model) {
+        addUserToModel(model);
+        List<ClubDto> clubs = clubService.searchClubs(query);
+        model.addAttribute("clubs", clubs);
+        return "clubs-list";
     }
 
     @GetMapping("/clubs/new")
@@ -72,39 +74,28 @@ public class ClubController {
         return "clubs-create";
     }
 
-    @GetMapping("/clubs/search")
-    public String searchClubs(@RequestParam("q") String query, Model model) {
-        UserEntity user = new UserEntity();
-        String username = SecurityUtil.getSessionUser();
-        if (username != null) {
-            user = userService.findByUsername(username);
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("user", user);
-
-        List<ClubDto> clubs = clubService.searchClubs(query);
-        model.addAttribute("clubs", clubs);
-        return "clubs-list";
-    }
-
     @PostMapping(value = "/clubs/new", consumes = "multipart/form-data")
     public String saveClub(Model model, @Valid @ModelAttribute("club") ClubDto clubDto, BindingResult result, @RequestParam("photo") MultipartFile file, RedirectAttributes attributes) {
-        if (result.hasErrors()) {
-            model.addAttribute("club", clubDto);
-            return "clubs-create";
-        }
-        // Allow user to crete a club without image
+
+        // Allow user to create a club without image
         if (!file.isEmpty()) {
             try {
                 String uploadedFileName = storageService.store(file);
                 clubDto.setPhotoUrl(FileUtil.ROOT_LOCATION + uploadedFileName);
+                isImageValid = true;
             } catch (Exception e) {
-                String message = e.getMessage();
-                System.err.println(message);
+                System.err.println(e.getMessage());
                 model.addAttribute("club", clubDto);
-                model.addAttribute("message", "An error occurred. Try again or leave blank for no photo.");
+                model.addAttribute("message", "Please upload a valid image file.");
                 return "clubs-create";
             }
+        }
+
+        if (result.hasErrors()) {
+            model.addAttribute("club", clubDto);
+            if (isImageValid)
+                model.addAttribute("message", "Due to security reasons, please upload your pic again.");
+            return "clubs-create";
         }
         Club c = clubService.saveClub(clubDto);
         return "redirect:/clubs/" + c.getId();
