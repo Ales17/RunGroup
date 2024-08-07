@@ -49,12 +49,20 @@ public class ClubServiceImpl implements ClubService {
     }
 
     @Override
-    public void updateClub(ClubDto clubDto) {
+    public void createClub(ClubDto clubDto) {
         String username = SecurityUtil.getSessionUser();
         UserEntity user = userRepository.findByUsername(username);
         Club club = mapToClub(clubDto);
         club.setCreatedBy(user);
         clubRepository.save(club);
+    }
+
+    @Override
+    public void updateClub(ClubDto dto) {
+        Club c = clubRepository.findById(dto.getId()).get();
+        c.setContent(dto.getContent());
+        c.setTitle(dto.getTitle());
+
     }
 
     @Override

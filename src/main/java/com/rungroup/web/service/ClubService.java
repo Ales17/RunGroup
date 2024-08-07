@@ -12,7 +12,9 @@ public interface ClubService {
 
     ClubDto findClubById(Long clubId);
 
-    void updateClub(ClubDto club);
+    void createClub(ClubDto club);
+
+    void updateClub(ClubDto dto);
 
     void delete(Long clubId);
 
