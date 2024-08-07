@@ -113,14 +113,30 @@ public class ClubController {
     @PreAuthorize("@securityService.isClubOwner(#clubId)")
     // It is important to put attribute name behind @ModelAttribute("attributeName")
     public String updateClub(@PathVariable Long clubId, Model model, @Valid @ModelAttribute("club") ClubDto club,
-                             BindingResult result) {
+                             BindingResult result, @RequestParam("photo") MultipartFile file) {
+        if (!file.isEmpty()) {
+            try {
+                String uploadedFileName = storageService.store(file);
+                club.setPhotoUrl(FileUtil.ROOT_LOCATION + uploadedFileName);
+                isImageValid = true;
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                model.addAttribute("club", club);
+                model.addAttribute("message", "Please upload a valid image file.");
+                return "clubs-edit";
+            }
+        }
+
         if (result.hasErrors()) {
             model.addAttribute("club", club);
+            if (isImageValid)
+                model.addAttribute("message", "Due to security reasons, please upload your pic again.");
+
             return "clubs-edit";
         }
         club.setId(clubId);
         clubService.updateClub(club);
-        return "redirect:/clubs";
+        return "redirect:/clubs/" + clubId;
     }
 
     @GetMapping("/clubs/{clubId}/delete")

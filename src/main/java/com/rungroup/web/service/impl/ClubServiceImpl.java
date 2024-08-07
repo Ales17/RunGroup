@@ -62,7 +62,10 @@ public class ClubServiceImpl implements ClubService {
         Club c = clubRepository.findById(dto.getId()).get();
         c.setContent(dto.getContent());
         c.setTitle(dto.getTitle());
-
+        c.setId(dto.getId());
+        String photoUrl = dto.getPhotoUrl();
+        if (photoUrl != null) c.setPhotoUrl(photoUrl);
+        clubRepository.save(c);
     }
 
     @Override
