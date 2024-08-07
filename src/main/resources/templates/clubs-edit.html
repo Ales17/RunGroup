@@ -17,36 +17,37 @@
                 <input type="hidden" th:field="*{id}"/>
                 <div class="form-group">
                     <label class="form-label" for="title">Title</label>
-                        <input
-                                th:field="*{title}"
-                                type="text"
-                                name="title"
-                                id="title"
-                                class="form-control"/>
-                        <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger" ></p>
-                    </div>
-                <div class="form-group ">
-                    <label class="form-label" for="photourl">Photo URL</label>
-                        <input
-                                th:field="*{photoUrl}"
-                                type="text"
-                                class="form-control"
-                                id="photourl"
-                                name="photourl"/>
-                        <p th:if="${#fields.hasErrors('photoUrl')}" th:errors="*{photoUrl}" class="text-danger" ></p>
+                    <input
+                            class="form-control"
+                            id="title"
+                            name="title"
+                            th:field="*{title}"
+                            type="text"/>
+                    <div class="text-danger" th:errors="*{title}" th:if="${#fields.hasErrors('title')}"></div>
+                </div>
 
-                    </div>
+                <div class="form-group">
+                    <label class="form-label" for="photo">Photo (overwrites existing if present)</label>
+                    <input
+                            accept="image/jpeg, image/png"
+                            class="form-control"
+                            id="photo"
+                            name="photo"
+                            type="file">
+                    <div class="text-danger" th:if="${message}" th:text="${message}"></div>
+
+                </div>
                 <div class="form-group ">
                     <label class="form-label" for="content">Content</label>
-                        <input
-                                th:field="*{content}"
-                                type="text"
-                                id="content"
-                                name="content"
-                                class="form-control"/>
-                        <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-danger" ></p>
+                    <input
+                            class="form-control"
+                            id="content"
+                            name="content"
+                            th:field="*{content}"
+                            type="text"/>
+                    <div class="text-danger" th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></div>
 
-                    </div>
+                </div>
 
                 <button type="submit" class="btn btn-primary">Save</button>
 
