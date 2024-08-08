@@ -40,7 +40,7 @@ public class AdminController {
         UserDto user = userService.findById(userId);
         model.addAttribute("user", user);
         // Single user row if edit is canceled (HTMX)
-        return "admin/users-row";
+        return "fragments/admin :: users-row";
     }
 
     @GetMapping("/users/{userId}/edit")

@@ -1,4 +1,8 @@
-<tr th:object="${user}">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<tr th:fragment="users-row" th:object="${user}">
     <td th:text="${user.id}"></td>
     <td th:text="${user.username}"></td>
     <td th:text="${user.email}"></td>
@@ -11,3 +15,5 @@
         </button>
     </td>
 </tr>
+
+</body>
