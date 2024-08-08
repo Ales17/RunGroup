@@ -32,7 +32,7 @@ public class AdminController {
         List<UserDto> users = userService.findAll();
         model.addAttribute("users", users);
         // Table containing all users
-        return "admin/users";
+        return "fragments/admin :: users";
     }
 
     @GetMapping("/users/{userId}")
