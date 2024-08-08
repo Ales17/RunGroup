@@ -48,7 +48,7 @@ public class AdminController {
         UserDto user = userService.findById(userId);
         model.addAttribute("user", user);
         // Single user row with fields to edit (HTMX)
-        return "admin/users-row-edit";
+        return "fragments/admin :: users-row-edit";
     }
 
     @PutMapping("/users/{userId}/edit")
@@ -56,6 +56,6 @@ public class AdminController {
         UserDto updatedUser = userService.updateUserWithoutPassword(user);
         model.addAttribute("user", updatedUser);
         // Return table row (tr) with updated user (HTMX)
-        return "admin/users-row";
+        return "fragments/admin :: users-row";
     }
 }
