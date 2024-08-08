@@ -1,6 +1,6 @@
 <html layout:decorate="~{layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org" xmlns:th="http://thymeleaf.org"
 >
 <body>
 <head>
@@ -40,7 +40,7 @@
                             />
                             <div class="no-photo"
                                  th:if="${club.photoUrl == null}">
-                                <div>No photo</div>
+                                <div>No photo provided</div>
                             </div>
                         </div>
                         <h3 class="h3 fw-bolder"
@@ -50,6 +50,7 @@
                         <a class="btn btn-primary" th:href="@{/clubs/{clubId}(clubId=${club.id})}">Detail</a>
 
                         <a class="btn btn-warning" th:href="@{/clubs/{clubId}/edit(clubId=${club.id})}"
+                           sec:authorize="isAuthenticated()"
                            th:if="${user.id}==${club.createdBy.id}">Edit</a>
                     </div>
                 </div>
