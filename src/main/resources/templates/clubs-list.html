@@ -1,9 +1,10 @@
-<html xmlns:th="http://thymeleaf.org"
+<html layout:decorate="~{layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
-
-<body class="d-flex flex-column h-100">
+      xmlns:th="http://thymeleaf.org"
+>
+<body>
 <head>
+    <title>Clubs List</title>
 </head>
 <main class="flex-shrink-0">
     <!-- Page Content-->
@@ -15,29 +16,20 @@
                 </div>
             </div>
         </header>
-
         <div class="container px-5 my-5">
             <div class="alert alert-success" th:if="${param.success}">You are registered successfully.</div>
-
-
-            <div class="row">
-
+            <div class="row search">
                 <div class="col d-flex justify-content-center" th:if="${param.query}">
                     <a class="btn btn-primary" th:href="@{/clubs}">Back to clubs</a>
                 </div>
-
                 <form class="form-inline my-2 mb-3" th:action="@{/clubs/search}">
                     <div class="input-group">
-
                         <input aria-label="Search clubs" class="form-control" id="q" name="q" type="search"/>
-
                         <input class="btn btn-primary" type="submit" value="Search">
                     </div>
                 </form>
             </div>
-
             <div class="row g-4">
-
                 <div th:each="club :${clubs} " class="col-lg-6">
                     <div class="position-relative mb-3 ">
                         <div class="rounded-3 mb-3 overflow-hidden">
@@ -59,7 +51,6 @@
 
                         <a class="btn btn-warning" th:href="@{/clubs/{clubId}/edit(clubId=${club.id})}"
                            th:if="${user.id}==${club.createdBy.id}">Edit</a>
-
                     </div>
                 </div>
             </div>
@@ -67,7 +58,4 @@
     </section>
 </main>
 </body>
-<script>
-
-</script>
 </html>
