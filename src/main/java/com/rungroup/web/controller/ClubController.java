@@ -40,10 +40,6 @@ public class ClubController {
         model.addAttribute("user", user);
     }
 
-    @GetMapping("/")
-    public String getHomePage() {
-        return "index";
-    }
 
     @GetMapping("/clubs")
     public String listClubs(Model model) {
