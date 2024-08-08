@@ -51,6 +51,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(UserDto userDto) {
         UserEntity user = mapUserToEntity(userDto);
+        Role role = roleRepository.findByName("ROLE_USER");
+        user.setRoles(Set.of(role));
         userRepository.save(user);
     }
 
@@ -88,7 +90,8 @@ public class UserServiceImpl implements UserService {
 
         UserEntity user = mapUserToEntity(userDto);
         user.setPassword(entity.getPassword());
-
+        Role role = roleRepository.findByName("ROLE_USER");
+        user.setRoles(Set.of(role));
         return mapUserToDto(userRepository.save(user));
     }
 
