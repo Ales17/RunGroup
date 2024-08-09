@@ -1,6 +1,7 @@
 package com.rungroup.web.dto;
 
 import com.rungroup.web.models.Club;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -17,9 +18,11 @@ public class EventDto {
     private String name;
     @NotNull(message = "Start time cannot be empty")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @FutureOrPresent
     private LocalDateTime startTime;
     @NotNull(message = "End time cannot be empty")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @FutureOrPresent(message = "Date must be today or later.")
     private LocalDateTime endTime;
     @NotEmpty(message = "Type cannot be empty")
     private String type;
