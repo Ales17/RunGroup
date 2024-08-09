@@ -1,6 +1,6 @@
 @font-face {
     font-family: Montserrat;
-    src: url('/assets/Montserrat-VariableFont_wght.ttf');
+    src: url('../assets/Montserrat-VariableFont_wght.ttf');
     font-weight: auto;
 }
 
@@ -18,9 +18,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 1.5rem;
 }
 
 .list-image {
     aspect-ratio: 4/3;
+    object-fit: cover;
     background-position: center;
+}
+
+@media screen and (min-width: 768px) {
+    .photo-placeholder {
+        aspect-ratio: 4/3
+    }
 }
