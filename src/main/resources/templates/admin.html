@@ -10,7 +10,10 @@
     <!-- Page Content-->
     <section class="py-5" layout:fragment="body">
         <div class="container">
-            <div hx-swap="outerHTML" hx-target="this" hx-trigger="load" th:hx-get="@{/admin/users}"></div>
+            <div class="row">
+                <div hx-swap="outerHTML" hx-target="this" hx-trigger="load" th:hx-get="@{/admin/users}"></div>
+                <div hx-swap="outerHTML" hx-target="this" hx-trigger="load" th:hx-get="@{/files}"></div>
+            </div>
         </div>
     </section>
 </main>

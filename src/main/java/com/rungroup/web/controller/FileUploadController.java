@@ -31,7 +31,7 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ADMIN")
     @GetMapping("")
     public String listUploadedFiles(Model model) throws IOException {
 
@@ -40,7 +40,7 @@ public class FileUploadController {
                                 "serveFile", path.getFileName().toString()).build().toUri().toString())
                 .collect(Collectors.toList()));
 
-        return "admin/uploads";
+        return "fragments/admin :: uploads";
     }
 
     @GetMapping(value = "{filename:.+}")

@@ -2,6 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 
+<div class="uploads w-100" th:fragment="uploads">
+    <div class="row gx-3 gy-3">
+        <div class="col-12 col-md-6" th:each="file : ${files}">
+            <img class="w-100 p-2 border border-2 border-danger" th:src="${file}"/>
+        </div>
+    </div>
+</div>
+
 <tr th:fragment="users-row" th:object="${user}">
     <td th:text="${user.id}"></td>
     <td th:text="${user.username}"></td>
@@ -20,16 +28,19 @@
     <td th:text="${user.id}"></td>
     <input name="id" th:value="${user.id}" type="hidden">
     <td>
-        <input class="form-control" id="username" name="username" required th:value="${user.username}"/>
+        <input aria-label="Username" class="form-control" id="username" name="username" required
+               th:value="${user.username}"/>
     </td>
     <td>
-        <input class="form-control" id="email" name="email" required th:value="${user.email}"/>
+        <input aria-label="E-mail" class="form-control" id="email" name="email" required th:value="${user.email}"/>
     </td>
     <td>
-        <input class="form-control" id="givenName" name="givenName" required th:value="${user.givenName}"/>
+        <input aria-label="Given Name" class="form-control" id="givenName" name="givenName" required
+               th:value="${user.givenName}"/>
     </td>
     <td>
-        <input class="form-control" id="familyName" name="familyName" required th:value="${user.familyName}"/>
+        <input aria-label="Family Name" class="form-control" id="familyName" name="familyName" required
+               th:value="${user.familyName}"/>
     </td>
     <td>
         <button class="btn btn-warning" th:hx-get="@{admin/users/{userId}(userId=${user.id})}">Cancel</button>
