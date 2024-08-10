@@ -22,29 +22,15 @@
                                 type="text">
                         <p class="text-danger" th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></p>
                     </div>
-            <div class="form-group">
-                <label class="form-label" for="type">Type</label>
-                        <input
-                                class="form-control"
-                                id="type"
-                                name="type"
-                                placeholder="Marathon"
-                                th:field="*{type}"
-                                type="text">
-                        <p class="text-danger" th:errors="*{type}" th:if="${#fields.hasErrors('type')}"></p>
-                    </div>
 
             <div class="form-group">
-                <label class="form-label" for="photoUrl">Photo URL</label>
-                    <input
-                            class="form-control"
-                            id="photoUrl"
-                            name="photoUrl"
-                            placeholder="https://xyz.cz/img.jpg"
-                            th:field="*{photoUrl}"
-                            type="text">
-                    <p class="text-danger" th:errors="*{photoUrl}" th:if="${#fields.hasErrors('photoUrl')}"></p>
-                </div>
+                <label class="form-label" for="eventType">Event type</label>
+                <select class="form-select" id="eventType" name="eventType">
+                    <option th:each="type:${types}" th:selected="${type.getId()==type_id}" th:text="${type.getName()}"
+                            th:value="${type.getId()}"></option>
+                </select>
+            </div>
+            </div>
             <div class="form-group">
                 <label class="form-label" for="startTime">Start Time</label>
                     <input

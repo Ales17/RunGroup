@@ -22,8 +22,9 @@ public class Event {
     private String name;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private String type;
-    private String photoUrl;
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private EventType type;
     @CreationTimestamp
     private LocalDateTime createdOn;
     @UpdateTimestamp

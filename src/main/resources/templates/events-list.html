@@ -1,12 +1,10 @@
 <html layout:decorate="~{layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://thymeleaf.org">
-
 <body>
 <main class="flex-shrink-0">
     <!-- Page Content-->
     <section class="" layout:fragment="body">
-
         <header class="py-5 bg-light border-bottom mb-4">
             <div class="container">
                 <div class="text-center my-5">
@@ -14,18 +12,16 @@
                 </div>
             </div>
         </header>
-
         <div class="container px-5 my-5">
-
             <div class="row g-4">
-
                 <div class="col-lg-6" th:each="event :${events} ">
                     <div class="position-relative mb-5">
                         <!--Random param to prove images would not be the same-->
                         <img alt="..." class="img-fluid rounded-3 mb-3"
-                             th:src="${event.photoUrl}+'?random='+${event.id}"/>
+                             th:src="${event.getType().getPhotoUrl}"/>
                         <h3 class="h3 fw-bolder"
                             th:text="${event.name}"></h3>
+                        <div th:text="${event.getType().name}"></div>
                     </div>
                     <div class="d-flex gap-2">
                     <a class="btn btn-primary" th:href="@{/events/{eventId}(eventId=${event.id})}">Read more →</a>
@@ -38,7 +34,4 @@
     </section>
 </main>
 </body>
-<script>
-
-</script>
 </html>

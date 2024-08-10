@@ -12,24 +12,22 @@
             <div class="container">
                 <div class="text-center my-5">
                     <h1 class="fw-bolder" th:text="*{event.name}"></h1>
-                    <p class="lead mb-0" th:text="*{event.type}"></p>
+                    <p class="lead mb-0" th:text="*{event.getType().getName()}"></p>
                 </div>
             </div>
         </header>
         <div class="container">
             <div class="row">
-                <!-- Blog entries-->
                 <div class="col-lg-8">
-                    <!-- Featured blog post-->
                     <div class="card mb-4">
-                        <a href="#!"><img alt="..." class="card-img-top"
-                                          th:src="${event.photoUrl}+'?random='+${event.id}"></a>
+                        <img alt="" class="card-img-top"
+                             th:src="${event.getType().photoUrl}+'?random='+${event.id}">
                         <div class="card-body">
                             <div class="small text-muted" th:text="${#temporals.format(event.startTime, 'dd MMM yyyy HH:mm', #locale.ENGLISH)} +
                              ' - ' + ${#temporals.format(event.endTime, 'dd MMM yyyy HH:mm', #locale.ENGLISH)}"></div>
                             <h2 class="card-title">About this event</h2>
                             <p class="card-text" th:text="'Club: '+${event.club.title}"></p>
-                            <div th:if="${user.id}==${event.club.createdBy.id}">
+                            <div th:if="${user.id}==${event.getClub().getCreatedBy().getId()}">
                                 <a class="btn btn-danger"
                                    th:href="@{/events/{eventId}/delete(eventId=${event.id})}">Delete</a>
                                 <a class="btn btn-warning"
@@ -37,7 +35,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Nested row for non-featured blog posts-->
                 </div>
                 <!-- Side widgets-->
                 <div class="col-lg-4">
