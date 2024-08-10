@@ -19,6 +19,8 @@ public interface UserService {
 
     UserEntity findByEmail(String email);
 
+    List<UserDto> findBasicUsers();
+
     List<UserDto> findAll();
 
     UserDto findById(Long userId);

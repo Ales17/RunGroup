@@ -21,9 +21,9 @@ import static com.rungroup.web.security.SecurityUtil.getSessionUser;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
@@ -103,6 +103,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<UserDto> findBasicUsers() {
+        Role admin = roleRepository.findByName("ROLE_ADMIN");
+        List<UserEntity> basicUsers = userRepository.findUserEntitiesByRolesNotContaining(admin);
+        return basicUsers.stream().map(UserMapper::mapUserToDto).toList();
     }
 
     @Override

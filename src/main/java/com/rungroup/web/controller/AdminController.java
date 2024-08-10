@@ -14,7 +14,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public AdminController(UserService userService) {
@@ -29,9 +29,9 @@ public class AdminController {
 
     @GetMapping("/users")
     public String listUsers(Model model) {
-        List<UserDto> users = userService.findAll();
+        List<UserDto> users = userService.findBasicUsers();
         model.addAttribute("users", users);
-        // Table containing all users
+        // Table containing all (no ROLE_ADMIN) users
         return "fragments/admin :: users";
     }
 
