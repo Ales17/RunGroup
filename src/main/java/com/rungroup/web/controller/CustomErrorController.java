@@ -33,13 +33,13 @@ public class CustomErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
-        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        //String message = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-        if (status != null) {
-            int statusCode = Integer.parseInt(status.toString());
+        Object requestStatus = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        String requestMessage = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
+        if (requestStatus != null) {
+            int statusCode = Integer.parseInt(requestStatus.toString());
             model.addAttribute("status", statusCode);
-            String description = statusCodeDescription(statusCode);
-            model.addAttribute("description", description);
+            //String message = statusCodeDescription(statusCode);
+            model.addAttribute("message", requestMessage);
         }
         return "custom-error";
     }

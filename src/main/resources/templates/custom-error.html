@@ -12,19 +12,15 @@
 </head>
 <body>
 <main class="flex-shrink-0">
-    <!-- Page Content-->
     <section class="py-5 bg-light flex-grow-1" layout:fragment="body">
         <div class="container">
             <div class="text-center my-5 d-flex flex-column gap-3">
                 <h1 class="fw-bolder error-status" th:text="${status}"></h1>
-                <h2 class="fw-bolder" th:text="${description}"></h2>
+                <h2 class="fw-bolder" th:text="${message}"></h2>
                 <div><a class="btn btn-primary" th:href="@{/}">Go home</a></div>
             </div>
         </div>
     </section>
 </main>
 </body>
-<script>
-
-</script>
 </html>
