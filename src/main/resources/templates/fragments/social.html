@@ -4,12 +4,13 @@
 <!--th:hx-put="@{/post/{postId}/dislike(postId=${post.getId()})}"-->
 
 <div th:fragment="post-new">
-    <form class="d-flex flex-column gap-2">
+    <form class="d-flex flex-column gap-2" hx-swap="outerHTML" hx-target="this">
         <div class="form-group">
-            <textarea class="form-control" placeholder="What is on your mind?" rows="5"></textarea>
+            <textarea aria-label="Post content" class="form-control" name="content" placeholder="What is on your mind?"
+                      rows="5"></textarea>
         </div>
         <div class="form-group d-flex">
-            <button class="btn btn-primary">Post</button>
+            <button class="btn btn-primary" th:hx-post="@{post/new}">Post</button>
         </div>
     </form>
 </div>

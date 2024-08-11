@@ -26,7 +26,7 @@
         <div class="container col-md-9 col-lg-5">
 
             <div class="row g-4">
-                <div class="col-12" th:insert="fragments/social :: post-new">
+                <div class="col-12" hx-swap="innerHTML" hx-target="this" hx-trigger="load" th:hx-get="@{post/new}">
 
                 </div>
                 <div class="col-12 d-flex flex-column gap-2 my-3">
