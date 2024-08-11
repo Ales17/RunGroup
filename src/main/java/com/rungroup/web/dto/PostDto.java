@@ -10,7 +10,7 @@ import java.util.Set;
 @Data
 @Builder
 public class PostDto {
-    private long id;
+    private Long id;
     private String content;
     private UserEntity createdBy;
     private LocalDateTime createdOn;

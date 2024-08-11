@@ -20,7 +20,7 @@ import java.util.Set;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String content;
     @ManyToOne
     @JoinColumn(name = "user_id")
