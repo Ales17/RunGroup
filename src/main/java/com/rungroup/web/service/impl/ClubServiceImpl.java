@@ -1,6 +1,7 @@
 package com.rungroup.web.service.impl;
 
 import com.rungroup.web.dto.ClubDto;
+import com.rungroup.web.exception.ClubNotFoundException;
 import com.rungroup.web.mapper.ClubMapper;
 import com.rungroup.web.models.Club;
 import com.rungroup.web.models.UserEntity;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.rungroup.web.mapper.ClubMapper.mapToClub;
@@ -19,8 +21,8 @@ import static com.rungroup.web.mapper.ClubMapper.mapToClubDto;
 
 @Service
 public class ClubServiceImpl implements ClubService {
-    private UserRepository userRepository;
-    private ClubRepository clubRepository;
+    private final UserRepository userRepository;
+    private final ClubRepository clubRepository;
 
     @Autowired
     public ClubServiceImpl(ClubRepository clubRepository, UserRepository userRepository) {
@@ -44,8 +46,11 @@ public class ClubServiceImpl implements ClubService {
 
     @Override
     public ClubDto findClubById(Long clubId) {
-        Club club = clubRepository.findById(clubId).get();
-        return mapToClubDto(club);
+        Optional<Club> club = clubRepository.findById(clubId);
+        if (club.isEmpty()) {
+            throw new ClubNotFoundException();
+        }
+        return mapToClubDto(club.get());
     }
 
     @Override
@@ -59,7 +64,11 @@ public class ClubServiceImpl implements ClubService {
 
     @Override
     public void updateClub(ClubDto dto) {
-        Club c = clubRepository.findById(dto.getId()).get();
+        Optional<Club> maybeClub = clubRepository.findById(dto.getId());
+        if (maybeClub.isEmpty()) {
+            throw new ClubNotFoundException();
+        }
+        Club c = maybeClub.get();
         c.setContent(dto.getContent());
         c.setTitle(dto.getTitle());
         c.setId(dto.getId());
