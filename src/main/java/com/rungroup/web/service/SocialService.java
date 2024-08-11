@@ -5,6 +5,9 @@ import com.rungroup.web.dto.PostDto;
 import java.util.List;
 
 public interface SocialService {
+
+    void createPost(PostDto postDto);
+
     List<PostDto> findAllPosts();
 
     boolean isPostLikedBySessionUser(long postId);

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+import static com.rungroup.web.mapper.PostMapper.mapDtoToPost;
 import static com.rungroup.web.security.SecurityUtil.getSessionUser;
 
 @Service
@@ -25,6 +26,15 @@ public class SocialServiceImpl implements SocialService {
     public SocialServiceImpl(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public void createPost(PostDto postDto) {
+        String username = getSessionUser();
+        UserEntity sessionUser = userRepository.findFirstByUsername(username);
+        Post post = mapDtoToPost(postDto);
+        post.setCreatedBy(sessionUser);
+        postRepository.save(post);
     }
 
     @Override
