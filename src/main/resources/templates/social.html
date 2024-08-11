@@ -1,0 +1,78 @@
+<html layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://thymeleaf.org"
+      xmlns:th="http://thymeleaf.org">
+
+<body>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <title>Home</title>
+    <script crossorigin="anonymous"
+            integrity="sha384-QWGpdj554B4ETpJJC9z+ZHJcA/i59TyjxEPXiiUgN2WmTyV5OEZWCD6gQhgkdpB/"
+            src="https://unpkg.com/htmx.org@2.0.1"></script>
+</head>
+<main class="flex-shrink-0">
+    <!-- Page Content-->
+    <section class="" layout:fragment="body">
+
+        <header class="py-5 bg-light border-bottom mb-4">
+            <div class="container">
+                <div class="text-center my-5">
+                    <h1 class="fw-bolder">Post feed</h1>
+                </div>
+            </div>
+        </header>
+
+        <div class="container col-md-9 col-lg-5">
+
+            <div class="row g-4">
+                <div class="col-12" hx-swap="innerHTML" hx-target="this" hx-trigger="load" th:hx-get="@{post/new}">
+
+                </div>
+                <div class="col-12 d-flex flex-column gap-2 my-3" id="posts">
+                    <div class="card" th:each="post : ${posts}">
+                        <div class="card-body d-flex gap-2 align-items-center">
+                            <img class="rounded-circle" height="40" th:alt="|Profile picture of ${post.getCreatedBy().givenName}|"
+                                 th:src="${'https://picsum.photos/35?random='+post.id}"
+                                 width="40">
+                            <div class="d-flex flex-column lh-sm">
+                                <div th:text="${post.getCreatedBy().getFullName()}">
+                                    Author Name
+                                </div>
+                                <div class="text-secondary"
+                                     th:text="${#temporals.format(post.getCreatedOn(),'dd MMMM yyyy')}">01 May 2020
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text" th:text="${post.getContent()}">
+                                Fuga sequi enim ducimus omnis molestiae omnis. Aut molestiae laudantium odit qui dolores
+                                nihil quasi. Tempora dignissimos voluptates dolore. Quia ducimus sed praesentium ut.
+                            </p>
+                            <div class="btn-group" loading="lazy" sec:authorize="isAuthenticated()">
+                                <div hx-swap="outerHTML" hx-target="this">
+                                    <button
+                                            hx-trigger="load"
+                                            th:hx-get="@{/post/{postId}/status(postId=${post.id})}"
+
+                                    >
+                                        Hi
+                                    </button>
+                                </div>
+                                <!-- <button aria-label="Comment" class="btn btn-outline-primary">
+                                     <i aria-hidden="true" class="bi bi-chat" focusable="false"></i>
+                                     <span class="visually-hidden">Comment</span>
+                                 </button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+<script>
+
+</script>
+</html>
