@@ -26,7 +26,10 @@
         <div class="container col-md-9 col-lg-5">
 
             <div class="row g-4">
-                <div class="col-12 d-flex flex-column gap-2">
+                <div class="col-12" th:insert="fragments/social :: post-new">
+
+                </div>
+                <div class="col-12 d-flex flex-column gap-2 my-3">
                     <div class="card" th:each="post : ${posts}">
                         <div class="card-body d-flex gap-2 align-items-center">
                             <img class="rounded-circle" height="40" th:alt="|Profile picture of ${post.getCreatedBy().givenName}|"
@@ -56,10 +59,10 @@
                                         Hi
                                     </button>
                                 </div>
-                                <button aria-label="Comment" class="btn btn-outline-primary">
-                                    <i aria-hidden="true" class="bi bi-chat" focusable="false"></i>
-                                    <span class="visually-hidden">Comment</span>
-                                </button>
+                                <!-- <button aria-label="Comment" class="btn btn-outline-primary">
+                                     <i aria-hidden="true" class="bi bi-chat" focusable="false"></i>
+                                     <span class="visually-hidden">Comment</span>
+                                 </button>-->
                             </div>
                         </div>
                     </div>
