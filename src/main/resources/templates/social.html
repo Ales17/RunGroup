@@ -29,7 +29,7 @@
                 <div class="col-12" hx-swap="innerHTML" hx-target="this" hx-trigger="load" th:hx-get="@{post/new}">
 
                 </div>
-                <div class="col-12 d-flex flex-column gap-2 my-3">
+                <div class="col-12 d-flex flex-column gap-2 my-3" id="posts">
                     <div class="card" th:each="post : ${posts}">
                         <div class="card-body d-flex gap-2 align-items-center">
                             <img class="rounded-circle" height="40" th:alt="|Profile picture of ${post.getCreatedBy().givenName}|"

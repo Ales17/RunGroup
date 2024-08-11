@@ -3,6 +3,47 @@
 <body>
 <!--th:hx-put="@{/post/{postId}/dislike(postId=${post.getId()})}"-->
 
+
+<div class="col-12 d-flex flex-column gap-2 my-3" id="posts" th:fragment="posts">
+    <div class="card" th:each="post : ${posts}">
+        <div class="card-body d-flex gap-2 align-items-center">
+            <img class="rounded-circle" height="40" th:alt="|Profile picture of ${post.getCreatedBy().givenName}|"
+                 th:src="${'https://picsum.photos/35?random='+post.id}"
+                 width="40">
+            <div class="d-flex flex-column lh-sm">
+                <div th:text="${post.getCreatedBy().getFullName()}">
+                    Author Name
+                </div>
+                <div class="text-secondary"
+                     th:text="${#temporals.format(post.getCreatedOn(),'dd MMMM yyyy')}">01 May 2020
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="card-text" th:text="${post.getContent()}">
+                Fuga sequi enim ducimus omnis molestiae omnis. Aut molestiae laudantium odit qui dolores
+                nihil quasi. Tempora dignissimos voluptates dolore. Quia ducimus sed praesentium ut.
+            </p>
+            <div class="btn-group" loading="lazy" sec:authorize="isAuthenticated()">
+                <div hx-swap="outerHTML" hx-target="this">
+                    <button
+                            hx-trigger="load"
+                            th:hx-get="@{/post/{postId}/status(postId=${post.id})}"
+
+                    >
+                        Hi
+                    </button>
+                </div>
+                <!-- <button aria-label="Comment" class="btn btn-outline-primary">
+                     <i aria-hidden="true" class="bi bi-chat" focusable="false"></i>
+                     <span class="visually-hidden">Comment</span>
+                 </button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div th:fragment="post-new">
     <form class="d-flex flex-column gap-2" hx-swap="outerHTML" hx-target="this">
         <div class="form-group">
@@ -10,7 +51,7 @@
                       rows="5"></textarea>
         </div>
         <div class="form-group d-flex">
-            <button class="btn btn-primary" th:hx-post="@{post/new}">Post</button>
+            <button class="btn btn-primary" hx-target="#posts" th:hx-post="@{post/new}">Post</button>
         </div>
     </form>
 </div>
