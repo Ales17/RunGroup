@@ -20,3 +20,11 @@ Project based on [Rungroop-Java](https://github.com/teddysmithdev/RunGroop-Java)
 
 - Created a custom error controller
 - Designed a custom error template for better user experience
+
+### Social Features
+
+- Added a social feature on the root page where users can create posts and like others' posts. HTMX was used to enable dynamic and seamless user interactions.
+
+### File Controller
+
+- Implemented a file controller allowing users to upload images to clubs or events, supporting better visual content management for organizers and administrators.
